@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "54361003190",
+    "firebase_url": "https://healthcare-8986c.firebaseio.com",
+    "project_id": "healthcare-8986c",
+    "storage_bucket": "healthcare-8986c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:54361003190:android:0a63764be21be66b",
+        "android_client_info": {
+          "package_name": "com.example.vyali.ambulance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "54361003190-8gudovdulrr8shohrqd0dpfabjtto4nr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vyali.ambulance",
+            "certificate_hash": "71fc0128459288b5140336f313e19e3a6ce4e878"
+          }
+        },
+        {
+          "client_id": "54361003190-vvbkd2ol0br1b28u42msmdvvqs4mcu6p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArZfBGt9F-4O4gmUAnhKmsZu5dhoEkRuk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "54361003190-vvbkd2ol0br1b28u42msmdvvqs4mcu6p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

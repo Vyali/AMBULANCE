@@ -1,0 +1,1299 @@
+<html>
+<head>
+<title>MainActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(0,0,255); }
+.s4 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MainActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">com.example.vyali.ambulance; 
+<a name="l2"><span class="ln">2    </span></a> 
+<a name="l3"><span class="ln">3    </span></a></span><span class="s0">import </span><span class="s1">android.content.BroadcastReceiver; 
+<a name="l4"><span class="ln">4    </span></a></span><span class="s0">import </span><span class="s1">android.content.Context; 
+<a name="l5"><span class="ln">5    </span></a></span><span class="s0">import </span><span class="s1">android.content.Intent; 
+<a name="l6"><span class="ln">6    </span></a></span><span class="s0">import </span><span class="s1">android.content.IntentFilter; 
+<a name="l7"><span class="ln">7    </span></a></span><span class="s0">import </span><span class="s1">android.content.SharedPreferences; 
+<a name="l8"><span class="ln">8    </span></a></span><span class="s0">import </span><span class="s1">android.os.Handler; 
+<a name="l9"><span class="ln">9    </span></a></span><span class="s0">import </span><span class="s1">android.support.annotation.NonNull; 
+<a name="l10"><span class="ln">10   </span></a></span><span class="s0">import </span><span class="s1">android.support.v4.app.ActivityCompat; 
+<a name="l11"><span class="ln">11   </span></a></span><span class="s0">import </span><span class="s1">android.support.v4.content.ContextCompat; 
+<a name="l12"><span class="ln">12   </span></a></span><span class="s0">import </span><span class="s1">android.support.v4.content.LocalBroadcastManager; 
+<a name="l13"><span class="ln">13   </span></a></span><span class="s0">import </span><span class="s1">android.support.v7.app.AppCompatActivity; 
+<a name="l14"><span class="ln">14   </span></a></span><span class="s0">import </span><span class="s1">android.os.Bundle; 
+<a name="l15"><span class="ln">15   </span></a></span><span class="s0">import </span><span class="s1">android.support.v7.widget.LinearLayoutManager; 
+<a name="l16"><span class="ln">16   </span></a></span><span class="s0">import </span><span class="s1">android.support.v7.widget.RecyclerView; 
+<a name="l17"><span class="ln">17   </span></a></span><span class="s0">import </span><span class="s1">android.text.format.DateFormat; 
+<a name="l18"><span class="ln">18   </span></a></span><span class="s0">import </span><span class="s1">android.util.Log; 
+<a name="l19"><span class="ln">19   </span></a></span><span class="s0">import </span><span class="s1">android.view.View; 
+<a name="l20"><span class="ln">20   </span></a></span><span class="s0">import </span><span class="s1">android.widget.Button; 
+<a name="l21"><span class="ln">21   </span></a></span><span class="s0">import </span><span class="s1">android.widget.EditText; 
+<a name="l22"><span class="ln">22   </span></a></span><span class="s0">import </span><span class="s1">android.widget.ProgressBar; 
+<a name="l23"><span class="ln">23   </span></a></span><span class="s0">import </span><span class="s1">android.widget.TextView; 
+<a name="l24"><span class="ln">24   </span></a></span><span class="s0">import </span><span class="s1">android.widget.Toast; 
+<a name="l25"><span class="ln">25   </span></a> 
+<a name="l26"><span class="ln">26   </span></a></span><span class="s0">import </span><span class="s1">java.io.IOException; 
+<a name="l27"><span class="ln">27   </span></a></span><span class="s0">import </span><span class="s1">java.io.Serializable; 
+<a name="l28"><span class="ln">28   </span></a></span><span class="s0">import </span><span class="s1">java.io.UnsupportedEncodingException; 
+<a name="l29"><span class="ln">29   </span></a></span><span class="s0">import </span><span class="s1">java.util.ArrayList; 
+<a name="l30"><span class="ln">30   </span></a></span><span class="s0">import </span><span class="s1">java.util.Collections; 
+<a name="l31"><span class="ln">31   </span></a></span><span class="s0">import </span><span class="s1">java.util.Comparator; 
+<a name="l32"><span class="ln">32   </span></a></span><span class="s0">import </span><span class="s1">java.util.Date; 
+<a name="l33"><span class="ln">33   </span></a></span><span class="s0">import </span><span class="s1">java.util.HashMap; 
+<a name="l34"><span class="ln">34   </span></a></span><span class="s0">import </span><span class="s1">java.util.HashSet; 
+<a name="l35"><span class="ln">35   </span></a></span><span class="s0">import </span><span class="s1">java.util.List; 
+<a name="l36"><span class="ln">36   </span></a></span><span class="s0">import </span><span class="s1">java.util.Map; 
+<a name="l37"><span class="ln">37   </span></a></span><span class="s0">import </span><span class="s1">java.util.Set; 
+<a name="l38"><span class="ln">38   </span></a> 
+<a name="l39"><span class="ln">39   </span></a> 
+<a name="l40"><span class="ln">40   </span></a></span><span class="s2">//import com.ahmadrosid.lib.drawroutemap.DrawRouteMaps;</span><span class="s1"> 
+<a name="l41"><span class="ln">41   </span></a></span><span class="s0">import </span><span class="s1">com.android.volley.DefaultRetryPolicy; 
+<a name="l42"><span class="ln">42   </span></a></span><span class="s0">import </span><span class="s1">com.android.volley.NetworkResponse; 
+<a name="l43"><span class="ln">43   </span></a></span><span class="s0">import </span><span class="s1">com.android.volley.Request; 
+<a name="l44"><span class="ln">44   </span></a></span><span class="s0">import </span><span class="s1">com.android.volley.Response; 
+<a name="l45"><span class="ln">45   </span></a></span><span class="s0">import </span><span class="s1">com.android.volley.ServerError; 
+<a name="l46"><span class="ln">46   </span></a></span><span class="s0">import </span><span class="s1">com.android.volley.VolleyError; 
+<a name="l47"><span class="ln">47   </span></a></span><span class="s0">import </span><span class="s1">com.android.volley.toolbox.HttpHeaderParser; 
+<a name="l48"><span class="ln">48   </span></a></span><span class="s0">import </span><span class="s1">com.android.volley.toolbox.JsonObjectRequest; 
+<a name="l49"><span class="ln">49   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.common.GooglePlayServicesNotAvailableException; 
+<a name="l50"><span class="ln">50   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.common.GooglePlayServicesRepairableException; 
+<a name="l51"><span class="ln">51   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.location.FusedLocationProviderClient; 
+<a name="l52"><span class="ln">52   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.location.LocationServices; 
+<a name="l53"><span class="ln">53   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.location.places.GeoDataClient; 
+<a name="l54"><span class="ln">54   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.location.places.Place; 
+<a name="l55"><span class="ln">55   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.location.places.PlaceDetectionClient; 
+<a name="l56"><span class="ln">56   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.location.places.Places; 
+<a name="l57"><span class="ln">57   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.location.places.ui.PlacePicker; 
+<a name="l58"><span class="ln">58   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.CameraUpdateFactory; 
+<a name="l59"><span class="ln">59   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.GoogleMap; 
+<a name="l60"><span class="ln">60   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.OnMapReadyCallback; 
+<a name="l61"><span class="ln">61   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.SupportMapFragment; 
+<a name="l62"><span class="ln">62   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.LatLng; 
+<a name="l63"><span class="ln">63   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.Marker; 
+<a name="l64"><span class="ln">64   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.MarkerOptions; 
+<a name="l65"><span class="ln">65   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.Polyline; 
+<a name="l66"><span class="ln">66   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.PolylineOptions; 
+<a name="l67"><span class="ln">67   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnCompleteListener; 
+<a name="l68"><span class="ln">68   </span></a></span><span class="s0">import </span><span class="s1">com.google.android.gms.tasks.Task; 
+<a name="l69"><span class="ln">69   </span></a></span><span class="s0">import </span><span class="s1">com.google.firebase.database.DataSnapshot; 
+<a name="l70"><span class="ln">70   </span></a></span><span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseError; 
+<a name="l71"><span class="ln">71   </span></a></span><span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseReference; 
+<a name="l72"><span class="ln">72   </span></a></span><span class="s0">import </span><span class="s1">com.google.firebase.database.FirebaseDatabase; 
+<a name="l73"><span class="ln">73   </span></a></span><span class="s0">import </span><span class="s1">com.google.firebase.database.ValueEventListener; 
+<a name="l74"><span class="ln">74   </span></a></span><span class="s0">import </span><span class="s1">com.sothree.slidinguppanel.SlidingUpPanelLayout; 
+<a name="l75"><span class="ln">75   </span></a> 
+<a name="l76"><span class="ln">76   </span></a></span><span class="s0">import </span><span class="s1">android.content.pm.PackageManager; 
+<a name="l77"><span class="ln">77   </span></a></span><span class="s0">import </span><span class="s1">android.location.Location; 
+<a name="l78"><span class="ln">78   </span></a> 
+<a name="l79"><span class="ln">79   </span></a></span><span class="s0">import </span><span class="s1">org.json.JSONArray; 
+<a name="l80"><span class="ln">80   </span></a></span><span class="s0">import </span><span class="s1">org.json.JSONException; 
+<a name="l81"><span class="ln">81   </span></a></span><span class="s0">import </span><span class="s1">org.json.JSONObject; 
+<a name="l82"><span class="ln">82   </span></a> 
+<a name="l83"><span class="ln">83   </span></a></span><span class="s0">public class </span><span class="s1">MainActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity </span><span class="s0">implements </span><span class="s1">OnMapReadyCallback { 
+<a name="l84"><span class="ln">84   </span></a> 
+<a name="l85"><span class="ln">85   </span></a>    </span><span class="s0">int </span><span class="s1">SOURCE_PICKER_REQUESET =</span><span class="s3">1</span><span class="s1">; 
+<a name="l86"><span class="ln">86   </span></a>    </span><span class="s0">int </span><span class="s1">DESTINATION_PICKER_REQUEST=</span><span class="s3">2</span><span class="s1">; 
+<a name="l87"><span class="ln">87   </span></a>    </span><span class="s0">int </span><span class="s1">MY_SOCKET_TIMEOUT_MS = </span><span class="s3">1500</span><span class="s1">; 
+<a name="l88"><span class="ln">88   </span></a> 
+<a name="l89"><span class="ln">89   </span></a> 
+<a name="l90"><span class="ln">90   </span></a>    </span><span class="s0">private </span><span class="s1">GeoDataClient mGeoDataClient; 
+<a name="l91"><span class="ln">91   </span></a>    </span><span class="s0">private </span><span class="s1">PlaceDetectionClient mPlaceDetectionClient; 
+<a name="l92"><span class="ln">92   </span></a>    </span><span class="s0">private </span><span class="s1">FusedLocationProviderClient mFusedLocationProviderClient; 
+<a name="l93"><span class="ln">93   </span></a>    </span><span class="s0">private </span><span class="s1">GoogleMap mMap; 
+<a name="l94"><span class="ln">94   </span></a>    FirebaseDatabase database; 
+<a name="l95"><span class="ln">95   </span></a>    DatabaseReference databaseReference; 
+<a name="l96"><span class="ln">96   </span></a>    Marker sMarker,dMarker; 
+<a name="l97"><span class="ln">97   </span></a> 
+<a name="l98"><span class="ln">98   </span></a>    </span><span class="s0">private static final </span><span class="s1">String TAG = MainActivity.</span><span class="s0">class</span><span class="s1">.getSimpleName(); 
+<a name="l99"><span class="ln">99   </span></a>    </span><span class="s0">int </span><span class="s1">ind=</span><span class="s3">0</span><span class="s1">; 
+<a name="l100"><span class="ln">100  </span></a>    </span><span class="s0">int </span><span class="s1">distance_value =</span><span class="s3">20000</span><span class="s1">; 
+<a name="l101"><span class="ln">101  </span></a> 
+<a name="l102"><span class="ln">102  </span></a>    </span><span class="s0">private final </span><span class="s1">LatLng mDefaultLocation = </span><span class="s0">new </span><span class="s1">LatLng(-</span><span class="s3">33.8523341</span><span class="s1">, </span><span class="s3">151.2106085</span><span class="s1">); 
+<a name="l103"><span class="ln">103  </span></a>    </span><span class="s0">private static final int </span><span class="s1">DEFAULT_ZOOM = </span><span class="s3">15</span><span class="s1">; 
+<a name="l104"><span class="ln">104  </span></a>    </span><span class="s0">private static final int </span><span class="s1">PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = </span><span class="s3">1</span><span class="s1">; 
+<a name="l105"><span class="ln">105  </span></a>    </span><span class="s0">public static final </span><span class="s1">String ACTION_UPDATE = </span><span class="s4">&quot;com.example.vyali.ambulance.action.UPDATE&quot;</span><span class="s1">; 
+<a name="l106"><span class="ln">106  </span></a>    </span><span class="s0">public static final int </span><span class="s1">ACTION_SET_TEXT=</span><span class="s3">1</span><span class="s1">; 
+<a name="l107"><span class="ln">107  </span></a>    </span><span class="s0">public static final int </span><span class="s1">ACTION_NOT_SET_TEXT=</span><span class="s3">0</span><span class="s1">; 
+<a name="l108"><span class="ln">108  </span></a> 
+<a name="l109"><span class="ln">109  </span></a> 
+<a name="l110"><span class="ln">110  </span></a>    </span><span class="s0">private int </span><span class="s1">SOURCE_FLAG = </span><span class="s3">1</span><span class="s1">; 
+<a name="l111"><span class="ln">111  </span></a>    </span><span class="s0">private int </span><span class="s1">DESTINATION_FLAG = </span><span class="s3">2</span><span class="s1">; 
+<a name="l112"><span class="ln">112  </span></a>    </span><span class="s0">private boolean </span><span class="s1">mLocationPermissionGranted; 
+<a name="l113"><span class="ln">113  </span></a>    </span><span class="s0">protected </span><span class="s1">Location mLastKnownLocation; 
+<a name="l114"><span class="ln">114  </span></a> 
+<a name="l115"><span class="ln">115  </span></a>    EditText source,destination; 
+<a name="l116"><span class="ln">116  </span></a>    String source_name,destination_name; 
+<a name="l117"><span class="ln">117  </span></a>    LatLng sourceLatLang, destinationLatLang,snewlatlang; 
+<a name="l118"><span class="ln">118  </span></a>    Button call,refresh_location; 
+<a name="l119"><span class="ln">119  </span></a>    TextView distance,eta,upTimeValue,upTimeMsg; 
+<a name="l120"><span class="ln">120  </span></a>    ProgressBar progressBar; 
+<a name="l121"><span class="ln">121  </span></a>    RecyclerView mRecyclerView; 
+<a name="l122"><span class="ln">122  </span></a>    RecyclerView.Adapter ambulanceAdapter; 
+<a name="l123"><span class="ln">123  </span></a>    RecyclerView.LayoutManager ambLayoutManager; 
+<a name="l124"><span class="ln">124  </span></a>    SlidingUpPanelLayout slidingUpPanelLayout; 
+<a name="l125"><span class="ln">125  </span></a> 
+<a name="l126"><span class="ln">126  </span></a> 
+<a name="l127"><span class="ln">127  </span></a>    String mDataset[]; 
+<a name="l128"><span class="ln">128  </span></a>    </span><span class="s0">double </span><span class="s1">pointx[]={</span><span class="s3">26.8476</span><span class="s1">,</span><span class="s3">28.7041</span><span class="s1">,</span><span class="s3">25.3176</span><span class="s1">,</span><span class="s3">25.4358</span><span class="s1">,</span><span class="s3">26.4270</span><span class="s1">}; 
+<a name="l129"><span class="ln">129  </span></a>    </span><span class="s0">double </span><span class="s1">pointy[]={</span><span class="s3">80.9462</span><span class="s1">,</span><span class="s3">77.105</span><span class="s1">,</span><span class="s3">82.9739</span><span class="s1">,</span><span class="s3">81.8463</span><span class="s1">,</span><span class="s3">83.4039</span><span class="s1">}; 
+<a name="l130"><span class="ln">130  </span></a>    List&lt;LatLng&gt; points; 
+<a name="l131"><span class="ln">131  </span></a>    List&lt;MyList&gt; ambulanceList; 
+<a name="l132"><span class="ln">132  </span></a>    </span><span class="s2">//List&lt;VehicleDetail&gt; vehicleDetailList;</span><span class="s1"> 
+<a name="l133"><span class="ln">133  </span></a>    List&lt;VehicleDetail2&gt; vehicleDetail2List; 
+<a name="l134"><span class="ln">134  </span></a>    </span><span class="s0">double </span><span class="s1">vehicleLat,vehicleLang; 
+<a name="l135"><span class="ln">135  </span></a> 
+<a name="l136"><span class="ln">136  </span></a>  </span><span class="s0">int </span><span class="s1">ref; 
+<a name="l137"><span class="ln">137  </span></a> 
+<a name="l138"><span class="ln">138  </span></a> 
+<a name="l139"><span class="ln">139  </span></a> 
+<a name="l140"><span class="ln">140  </span></a>    @Override 
+<a name="l141"><span class="ln">141  </span></a>    </span><span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) { 
+<a name="l142"><span class="ln">142  </span></a>        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState); 
+<a name="l143"><span class="ln">143  </span></a>        setContentView(R.layout.activity_main); 
+<a name="l144"><span class="ln">144  </span></a>        loadPreferences(); 
+<a name="l145"><span class="ln">145  </span></a> 
+<a name="l146"><span class="ln">146  </span></a>        </span><span class="s2">//initializing database variables</span><span class="s1"> 
+<a name="l147"><span class="ln">147  </span></a>        database= FirebaseDatabase.getInstance(); 
+<a name="l148"><span class="ln">148  </span></a>        </span><span class="s2">//databaseReference = database.getReference();</span><span class="s1"> 
+<a name="l149"><span class="ln">149  </span></a> 
+<a name="l150"><span class="ln">150  </span></a> 
+<a name="l151"><span class="ln">151  </span></a>        mDataset = </span><span class="s0">new </span><span class="s1">String[]{</span><span class="s4">&quot;name1&quot;</span><span class="s1">, </span><span class="s4">&quot;name2&quot;</span><span class="s1">,</span><span class="s4">&quot;name3&quot;</span><span class="s1">,</span><span class="s4">&quot;name4&quot;</span><span class="s1">}; 
+<a name="l152"><span class="ln">152  </span></a>        source = (EditText) findViewById(R.id.source_name); 
+<a name="l153"><span class="ln">153  </span></a>        destination = findViewById(R.id.destination_name); 
+<a name="l154"><span class="ln">154  </span></a>        call= findViewById(R.id.call); 
+<a name="l155"><span class="ln">155  </span></a>        refresh_location = findViewById(R.id.refresh_location); 
+<a name="l156"><span class="ln">156  </span></a>        distance=findViewById(R.id.distance); 
+<a name="l157"><span class="ln">157  </span></a>        eta = findViewById(R.id.eta); 
+<a name="l158"><span class="ln">158  </span></a>        progressBar = findViewById(R.id.progress_bar); 
+<a name="l159"><span class="ln">159  </span></a>        progressBar.setVisibility(View.INVISIBLE); 
+<a name="l160"><span class="ln">160  </span></a>        mRecyclerView = findViewById(R.id.nambulance_list); 
+<a name="l161"><span class="ln">161  </span></a>        mRecyclerView.setHasFixedSize(</span><span class="s0">true</span><span class="s1">); 
+<a name="l162"><span class="ln">162  </span></a>        slidingUpPanelLayout = findViewById(R.id.slide_panel); 
+<a name="l163"><span class="ln">163  </span></a>        ambulanceList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;MyList&gt;(); 
+<a name="l164"><span class="ln">164  </span></a>       </span><span class="s2">// vehicleDetailList = new ArrayList&lt;VehicleDetail&gt;();</span><span class="s1"> 
+<a name="l165"><span class="ln">165  </span></a>        vehicleDetail2List = </span><span class="s0">new </span><span class="s1">ArrayList&lt;VehicleDetail2&gt;(); 
+<a name="l166"><span class="ln">166  </span></a>        points = </span><span class="s0">new </span><span class="s1">ArrayList&lt;LatLng&gt;(); 
+<a name="l167"><span class="ln">167  </span></a>        upTimeValue = findViewById(R.id.upTimeValue); 
+<a name="l168"><span class="ln">168  </span></a>        upTimeMsg = findViewById(R.id.uptimemsg); 
+<a name="l169"><span class="ln">169  </span></a> 
+<a name="l170"><span class="ln">170  </span></a>        </span><span class="s2">//creating the latlang list</span><span class="s1"> 
+<a name="l171"><span class="ln">171  </span></a> 
+<a name="l172"><span class="ln">172  </span></a>        </span><span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s3">0</span><span class="s1">; i&lt;pointx.length-</span><span class="s3">1</span><span class="s1">;i++){ 
+<a name="l173"><span class="ln">173  </span></a> 
+<a name="l174"><span class="ln">174  </span></a>            points.add(i,</span><span class="s0">new </span><span class="s1">LatLng(pointx[i],pointy[i])); 
+<a name="l175"><span class="ln">175  </span></a>        } 
+<a name="l176"><span class="ln">176  </span></a> 
+<a name="l177"><span class="ln">177  </span></a>        </span><span class="s2">//StatusReceiver statusReceiver = new StatusReceiver();</span><span class="s1"> 
+<a name="l178"><span class="ln">178  </span></a>        </span><span class="s2">//LocalBroadcastManager.getInstance(this).registerReceiver();</span><span class="s1"> 
+<a name="l179"><span class="ln">179  </span></a>        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver( 
+<a name="l180"><span class="ln">180  </span></a>                </span><span class="s0">new </span><span class="s1">BroadcastReceiver() { 
+<a name="l181"><span class="ln">181  </span></a>                    @Override 
+<a name="l182"><span class="ln">182  </span></a>                    </span><span class="s0">public void </span><span class="s1">onReceive(Context context, Intent intent) { 
+<a name="l183"><span class="ln">183  </span></a>                        distance.setText(intent.getStringExtra(</span><span class="s4">&quot;d&quot;</span><span class="s1">)); 
+<a name="l184"><span class="ln">184  </span></a>                        eta.setText(intent.getStringExtra(</span><span class="s4">&quot;t&quot;</span><span class="s1">)); 
+<a name="l185"><span class="ln">185  </span></a>                        ind = Integer.parseInt(intent.getStringExtra(</span><span class="s4">&quot;ind&quot;</span><span class="s1">)); 
+<a name="l186"><span class="ln">186  </span></a>                        </span><span class="s0">if</span><span class="s1">(intent.getStringExtra(</span><span class="s4">&quot;getcurrent&quot;</span><span class="s1">)!=</span><span class="s0">null</span><span class="s1">){ 
+<a name="l187"><span class="ln">187  </span></a>                            getSelectedVehicle(); 
+<a name="l188"><span class="ln">188  </span></a>                        } 
+<a name="l189"><span class="ln">189  </span></a> 
+<a name="l190"><span class="ln">190  </span></a> 
+<a name="l191"><span class="ln">191  </span></a>                    } 
+<a name="l192"><span class="ln">192  </span></a>                },</span><span class="s0">new </span><span class="s1">IntentFilter(UpdatePositionService.ACTION_FOO) 
+<a name="l193"><span class="ln">193  </span></a>        ); 
+<a name="l194"><span class="ln">194  </span></a> 
+<a name="l195"><span class="ln">195  </span></a> 
+<a name="l196"><span class="ln">196  </span></a>        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver( 
+<a name="l197"><span class="ln">197  </span></a>                </span><span class="s0">new </span><span class="s1">BroadcastReceiver() { 
+<a name="l198"><span class="ln">198  </span></a>                    @Override 
+<a name="l199"><span class="ln">199  </span></a>                    </span><span class="s0">public void </span><span class="s1">onReceive(Context context, Intent intent) { 
+<a name="l200"><span class="ln">200  </span></a> 
+<a name="l201"><span class="ln">201  </span></a> 
+<a name="l202"><span class="ln">202  </span></a> 
+<a name="l203"><span class="ln">203  </span></a> 
+<a name="l204"><span class="ln">204  </span></a> 
+<a name="l205"><span class="ln">205  </span></a>                        </span><span class="s0">if</span><span class="s1">(intent.getStringExtra(</span><span class="s4">&quot;refresh&quot;</span><span class="s1">)!=</span><span class="s0">null</span><span class="s1">){ 
+<a name="l206"><span class="ln">206  </span></a>                            refreshLocation(); 
+<a name="l207"><span class="ln">207  </span></a>                        } 
+<a name="l208"><span class="ln">208  </span></a> 
+<a name="l209"><span class="ln">209  </span></a>                    } 
+<a name="l210"><span class="ln">210  </span></a>                },</span><span class="s0">new </span><span class="s1">IntentFilter(UpdatePositionService.ACTION_BAZ) 
+<a name="l211"><span class="ln">211  </span></a>        ); 
+<a name="l212"><span class="ln">212  </span></a> 
+<a name="l213"><span class="ln">213  </span></a> 
+<a name="l214"><span class="ln">214  </span></a> 
+<a name="l215"><span class="ln">215  </span></a> 
+<a name="l216"><span class="ln">216  </span></a> 
+<a name="l217"><span class="ln">217  </span></a>        </span><span class="s2">//layout manager</span><span class="s1"> 
+<a name="l218"><span class="ln">218  </span></a> 
+<a name="l219"><span class="ln">219  </span></a>        ambLayoutManager = </span><span class="s0">new </span><span class="s1">LinearLayoutManager(</span><span class="s0">this</span><span class="s1">); 
+<a name="l220"><span class="ln">220  </span></a>        mRecyclerView.setLayoutManager(ambLayoutManager); 
+<a name="l221"><span class="ln">221  </span></a> 
+<a name="l222"><span class="ln">222  </span></a>       </span><span class="s2">/* //Adapter 
+<a name="l223"><span class="ln">223  </span></a> 
+<a name="l224"><span class="ln">224  </span></a>        ambulanceAdapter = new AmbulanceAdapter(ambulanceList); 
+<a name="l225"><span class="ln">225  </span></a>        mRecyclerView.setAdapter(ambulanceAdapter);*/</span><span class="s1"> 
+<a name="l226"><span class="ln">226  </span></a> 
+<a name="l227"><span class="ln">227  </span></a> 
+<a name="l228"><span class="ln">228  </span></a>        </span><span class="s2">// progressBar.setVisibility(View.INVISIBLE);</span><span class="s1"> 
+<a name="l229"><span class="ln">229  </span></a>        </span><span class="s2">// Construct a GeoDataClient.</span><span class="s1"> 
+<a name="l230"><span class="ln">230  </span></a>        mGeoDataClient = Places.getGeoDataClient(</span><span class="s0">this</span><span class="s1">, </span><span class="s0">null</span><span class="s1">); 
+<a name="l231"><span class="ln">231  </span></a> 
+<a name="l232"><span class="ln">232  </span></a>        </span><span class="s2">// Construct a PlaceDetectionClient.</span><span class="s1"> 
+<a name="l233"><span class="ln">233  </span></a>        mPlaceDetectionClient = Places.getPlaceDetectionClient(</span><span class="s0">this</span><span class="s1">, </span><span class="s0">null</span><span class="s1">); 
+<a name="l234"><span class="ln">234  </span></a> 
+<a name="l235"><span class="ln">235  </span></a>        </span><span class="s2">// Construct a FusedLocationProviderClient.</span><span class="s1"> 
+<a name="l236"><span class="ln">236  </span></a>        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(</span><span class="s0">this</span><span class="s1">); 
+<a name="l237"><span class="ln">237  </span></a> 
+<a name="l238"><span class="ln">238  </span></a>        </span><span class="s2">// Obtain the SupportMapFragment and get notified when the map is ready to be used.</span><span class="s1"> 
+<a name="l239"><span class="ln">239  </span></a>        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager() 
+<a name="l240"><span class="ln">240  </span></a>                .findFragmentById(R.id.mapp); 
+<a name="l241"><span class="ln">241  </span></a>        mapFragment.getMapAsync(</span><span class="s0">this</span><span class="s1">); 
+<a name="l242"><span class="ln">242  </span></a> 
+<a name="l243"><span class="ln">243  </span></a> 
+<a name="l244"><span class="ln">244  </span></a> 
+<a name="l245"><span class="ln">245  </span></a> 
+<a name="l246"><span class="ln">246  </span></a> 
+<a name="l247"><span class="ln">247  </span></a> 
+<a name="l248"><span class="ln">248  </span></a>       getLocationPermission(); 
+<a name="l249"><span class="ln">249  </span></a>       mLastKnownLocation =  getDeviceLocation(); 
+<a name="l250"><span class="ln">250  </span></a> 
+<a name="l251"><span class="ln">251  </span></a> 
+<a name="l252"><span class="ln">252  </span></a>        </span><span class="s0">final </span><span class="s1">Handler handler = </span><span class="s0">new </span><span class="s1">Handler(); 
+<a name="l253"><span class="ln">253  </span></a>        handler.postDelayed(</span><span class="s0">new </span><span class="s1">Runnable() { 
+<a name="l254"><span class="ln">254  </span></a>            @Override 
+<a name="l255"><span class="ln">255  </span></a>            </span><span class="s0">public void </span><span class="s1">run() { 
+<a name="l256"><span class="ln">256  </span></a>                </span><span class="s2">//Do something after 100ms</span><span class="s1"> 
+<a name="l257"><span class="ln">257  </span></a>                </span><span class="s0">if</span><span class="s1">(mLastKnownLocation!=</span><span class="s0">null</span><span class="s1">) { 
+<a name="l258"><span class="ln">258  </span></a>                    System.out.println(</span><span class="s4">&quot;last locas!!!!!!!!!!!!!&quot;</span><span class="s1">+mLastKnownLocation.getLongitude()); 
+<a name="l259"><span class="ln">259  </span></a>                    addMarker(</span><span class="s0">new </span><span class="s1">LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude()), 
+<a name="l260"><span class="ln">260  </span></a>                            </span><span class="s4">&quot;Current Location&quot;</span><span class="s1">,SOURCE_FLAG); 
+<a name="l261"><span class="ln">261  </span></a>                }</span><span class="s0">else</span><span class="s1">{System.out.println(</span><span class="s4">&quot;@@@@@@@@@empty location value&quot;</span><span class="s1">);} 
+<a name="l262"><span class="ln">262  </span></a>            } 
+<a name="l263"><span class="ln">263  </span></a> 
+<a name="l264"><span class="ln">264  </span></a>        }, </span><span class="s3">2000</span><span class="s1">); 
+<a name="l265"><span class="ln">265  </span></a> 
+<a name="l266"><span class="ln">266  </span></a> 
+<a name="l267"><span class="ln">267  </span></a> 
+<a name="l268"><span class="ln">268  </span></a> 
+<a name="l269"><span class="ln">269  </span></a>       source.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+<a name="l270"><span class="ln">270  </span></a>           @Override 
+<a name="l271"><span class="ln">271  </span></a>           </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+<a name="l272"><span class="ln">272  </span></a>               selectSource(); 
+<a name="l273"><span class="ln">273  </span></a>           } 
+<a name="l274"><span class="ln">274  </span></a>       }); 
+<a name="l275"><span class="ln">275  </span></a> 
+<a name="l276"><span class="ln">276  </span></a>        destination.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+<a name="l277"><span class="ln">277  </span></a>            @Override 
+<a name="l278"><span class="ln">278  </span></a>            </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+<a name="l279"><span class="ln">279  </span></a>                selectDestination(); 
+<a name="l280"><span class="ln">280  </span></a>            } 
+<a name="l281"><span class="ln">281  </span></a>        }); 
+<a name="l282"><span class="ln">282  </span></a> 
+<a name="l283"><span class="ln">283  </span></a> 
+<a name="l284"><span class="ln">284  </span></a> 
+<a name="l285"><span class="ln">285  </span></a> 
+<a name="l286"><span class="ln">286  </span></a> 
+<a name="l287"><span class="ln">287  </span></a>       call.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+<a name="l288"><span class="ln">288  </span></a>           @Override 
+<a name="l289"><span class="ln">289  </span></a>           </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+<a name="l290"><span class="ln">290  </span></a>               System.out.println(</span><span class="s4">&quot;calling the ambulance&quot;</span><span class="s1">); 
+<a name="l291"><span class="ln">291  </span></a>           </span><span class="s0">for</span><span class="s1">(VehicleDetail2 vd2 : vehicleDetail2List){ 
+<a name="l292"><span class="ln">292  </span></a>               System.out.println(</span><span class="s4">&quot;*(**&amp;*(vd2&quot;</span><span class="s1">+vd2.getVehicleEmail()); 
+<a name="l293"><span class="ln">293  </span></a>           } 
+<a name="l294"><span class="ln">294  </span></a>             getOrderedDistanceAndTime(snewlatlang,points,vehicleDetail2List); 
+<a name="l295"><span class="ln">295  </span></a>            </span><span class="s2">// getOrderedDistanceAndTime(snewlatlang,points,vehicleDetail2List);</span><span class="s1"> 
+<a name="l296"><span class="ln">296  </span></a>             System.out.println(</span><span class="s4">&quot;after getorderdistanceandtime&quot;</span><span class="s1">); 
+<a name="l297"><span class="ln">297  </span></a> 
+<a name="l298"><span class="ln">298  </span></a> 
+<a name="l299"><span class="ln">299  </span></a>              </span><span class="s2">//getDistance(sourceLatLang,destinationLatLang);</span><span class="s1"> 
+<a name="l300"><span class="ln">300  </span></a> 
+<a name="l301"><span class="ln">301  </span></a>               </span><span class="s2">//new GetDistanceAndTime().execute();</span><span class="s1"> 
+<a name="l302"><span class="ln">302  </span></a>               refresh_location.setVisibility(View.VISIBLE); 
+<a name="l303"><span class="ln">303  </span></a>               refresh_location.setEnabled(</span><span class="s0">true</span><span class="s1">); 
+<a name="l304"><span class="ln">304  </span></a>               call.setVisibility(View.INVISIBLE); 
+<a name="l305"><span class="ln">305  </span></a>               call.setEnabled(</span><span class="s0">false</span><span class="s1">); 
+<a name="l306"><span class="ln">306  </span></a>           } 
+<a name="l307"><span class="ln">307  </span></a>       }); 
+<a name="l308"><span class="ln">308  </span></a> 
+<a name="l309"><span class="ln">309  </span></a> 
+<a name="l310"><span class="ln">310  </span></a>       refresh_location.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+<a name="l311"><span class="ln">311  </span></a>           @Override 
+<a name="l312"><span class="ln">312  </span></a>           </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+<a name="l313"><span class="ln">313  </span></a>               refreshLocation(); 
+<a name="l314"><span class="ln">314  </span></a>           } 
+<a name="l315"><span class="ln">315  </span></a>       }); 
+<a name="l316"><span class="ln">316  </span></a> 
+<a name="l317"><span class="ln">317  </span></a> 
+<a name="l318"><span class="ln">318  </span></a> 
+<a name="l319"><span class="ln">319  </span></a>    </span><span class="s2">//getVehiclesLocation();</span><span class="s1"> 
+<a name="l320"><span class="ln">320  </span></a>       getVehiclesLocation2(); 
+<a name="l321"><span class="ln">321  </span></a> 
+<a name="l322"><span class="ln">322  </span></a> 
+<a name="l323"><span class="ln">323  </span></a> 
+<a name="l324"><span class="ln">324  </span></a> 
+<a name="l325"><span class="ln">325  </span></a>        </span><span class="s2">/*if(savedInstanceState != null){ 
+<a name="l326"><span class="ln">326  </span></a>            ind = savedInstanceState.getInt(&quot;index&quot;); 
+<a name="l327"><span class="ln">327  </span></a>            ambulanceList = (List&lt;MyList&gt;) savedInstanceState.getSerializable(&quot;ambulaceList&quot;); 
+<a name="l328"><span class="ln">328  </span></a>            Log.d(&quot;RESTORED&quot;,&quot;oncreate wala&quot;+ambulanceList); 
+<a name="l329"><span class="ln">329  </span></a> 
+<a name="l330"><span class="ln">330  </span></a>        }*/</span><span class="s1"> 
+<a name="l331"><span class="ln">331  </span></a> 
+<a name="l332"><span class="ln">332  </span></a> 
+<a name="l333"><span class="ln">333  </span></a> 
+<a name="l334"><span class="ln">334  </span></a>    } 
+<a name="l335"><span class="ln">335  </span></a> 
+<a name="l336"><span class="ln">336  </span></a>    </span><span class="s0">protected void </span><span class="s1">savePreferences(){ 
+<a name="l337"><span class="ln">337  </span></a>        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE); 
+<a name="l338"><span class="ln">338  </span></a>        SharedPreferences.Editor editor = sharedPreferences.edit(); 
+<a name="l339"><span class="ln">339  </span></a>        editor.putInt(</span><span class="s4">&quot;index&quot;</span><span class="s1">,ind); 
+<a name="l340"><span class="ln">340  </span></a>        </span><span class="s2">//Set&lt;MyList&gt; set = new HashSet&lt;&gt;();</span><span class="s1"> 
+<a name="l341"><span class="ln">341  </span></a>        </span><span class="s2">//set.addAll(ambulanceList);</span><span class="s1"> 
+<a name="l342"><span class="ln">342  </span></a>        </span><span class="s2">//editor.putStringSet(&quot;ambulanceList&quot;);</span><span class="s1"> 
+<a name="l343"><span class="ln">343  </span></a>        System.out.println(</span><span class="s4">&quot;IN SAVE PREF&quot;</span><span class="s1">+ambulanceList.toString()); 
+<a name="l344"><span class="ln">344  </span></a>      </span><span class="s2">/*  try { 
+<a name="l345"><span class="ln">345  </span></a>            editor.putString(&quot;ambulanceList&quot;, ObjectSerializer.serialize((Serializable) ambulanceList)); 
+<a name="l346"><span class="ln">346  </span></a>        } catch (IOException e) { 
+<a name="l347"><span class="ln">347  </span></a>            e.printStackTrace(); 
+<a name="l348"><span class="ln">348  </span></a>        }*/</span><span class="s1"> 
+<a name="l349"><span class="ln">349  </span></a>        editor.putFloat(</span><span class="s4">&quot;vehicleLat&quot;</span><span class="s1">, (</span><span class="s0">float</span><span class="s1">) vehicleLat); 
+<a name="l350"><span class="ln">350  </span></a>        editor.putFloat(</span><span class="s4">&quot;vehicleLang&quot;</span><span class="s1">, (</span><span class="s0">float</span><span class="s1">) vehicleLang); 
+<a name="l351"><span class="ln">351  </span></a>        editor.commit(); 
+<a name="l352"><span class="ln">352  </span></a> 
+<a name="l353"><span class="ln">353  </span></a> 
+<a name="l354"><span class="ln">354  </span></a>    } 
+<a name="l355"><span class="ln">355  </span></a> 
+<a name="l356"><span class="ln">356  </span></a>    </span><span class="s0">protected void </span><span class="s1">loadPreferences(){ 
+<a name="l357"><span class="ln">357  </span></a>        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE); 
+<a name="l358"><span class="ln">358  </span></a>        ind = sharedPreferences.getInt(</span><span class="s4">&quot;index&quot;</span><span class="s1">,</span><span class="s3">0</span><span class="s1">); 
+<a name="l359"><span class="ln">359  </span></a>        </span><span class="s2">//Set set = new HashSet&lt;String&gt;();</span><span class="s1"> 
+<a name="l360"><span class="ln">360  </span></a>        </span><span class="s2">//set = sharedPreferences.getStringSet(&quot;ambulanceList&quot;,null);</span><span class="s1"> 
+<a name="l361"><span class="ln">361  </span></a>        </span><span class="s2">//ambulanceList = (List&lt;MyList&gt;) set;</span><span class="s1"> 
+<a name="l362"><span class="ln">362  </span></a>       </span><span class="s2">/* try { 
+<a name="l363"><span class="ln">363  </span></a>            ambulanceList = (ArrayList&lt;MyList&gt;) ObjectSerializer.deserialize(sharedPreferences.getString(&quot;ambulanceList&quot;, ObjectSerializer.serialize(new ArrayList&lt;MyList&gt;()))); 
+<a name="l364"><span class="ln">364  </span></a>            System.out.println(&quot;loaded PREF&quot;+ambulanceList); 
+<a name="l365"><span class="ln">365  </span></a>        } catch (Exception e) { 
+<a name="l366"><span class="ln">366  </span></a>            e.printStackTrace(); 
+<a name="l367"><span class="ln">367  </span></a>        }*/</span><span class="s1"> 
+<a name="l368"><span class="ln">368  </span></a>       vehicleLang = (</span><span class="s0">double</span><span class="s1">)sharedPreferences.getFloat(</span><span class="s4">&quot;vehicleLang&quot;</span><span class="s1">,  </span><span class="s3">83</span><span class="s1">); 
+<a name="l369"><span class="ln">369  </span></a>       vehicleLat = (</span><span class="s0">double</span><span class="s1">) sharedPreferences.getFloat(</span><span class="s4">&quot;vehicleLat&quot;</span><span class="s1">,</span><span class="s3">74</span><span class="s1">); 
+<a name="l370"><span class="ln">370  </span></a>       Log.d(</span><span class="s4">&quot;vehicleDouble&quot;</span><span class="s1">,</span><span class="s4">&quot;&quot;</span><span class="s1">+vehicleLang+vehicleLat); 
+<a name="l371"><span class="ln">371  </span></a>    } 
+<a name="l372"><span class="ln">372  </span></a> 
+<a name="l373"><span class="ln">373  </span></a>    @Override 
+<a name="l374"><span class="ln">374  </span></a>    </span><span class="s0">public void </span><span class="s1">onBackPressed() { 
+<a name="l375"><span class="ln">375  </span></a>        </span><span class="s0">super</span><span class="s1">.onBackPressed(); 
+<a name="l376"><span class="ln">376  </span></a>        savePreferences(); 
+<a name="l377"><span class="ln">377  </span></a>    } 
+<a name="l378"><span class="ln">378  </span></a>    </span><span class="s2">/*@Override 
+<a name="l379"><span class="ln">379  </span></a>    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) { 
+<a name="l380"><span class="ln">380  </span></a> 
+<a name="l381"><span class="ln">381  </span></a>        outState.putInt(&quot;index&quot;,ind); 
+<a name="l382"><span class="ln">382  </span></a>        outState.putSerializable(&quot;ambulanceList&quot;, (Serializable) ambulanceList); 
+<a name="l383"><span class="ln">383  </span></a> 
+<a name="l384"><span class="ln">384  </span></a>        super.onSaveInstanceState(outState, outPersistentState); 
+<a name="l385"><span class="ln">385  </span></a>    } 
+<a name="l386"><span class="ln">386  </span></a> 
+<a name="l387"><span class="ln">387  </span></a>    @Override 
+<a name="l388"><span class="ln">388  </span></a>    protected void onRestoreInstanceState(Bundle savedInstanceState) { 
+<a name="l389"><span class="ln">389  </span></a>        ind  = savedInstanceState.getInt(&quot;index&quot;); 
+<a name="l390"><span class="ln">390  </span></a>        ambulanceList = (List&lt;MyList&gt;) savedInstanceState.getSerializable(&quot;ambulaceList&quot;); 
+<a name="l391"><span class="ln">391  </span></a>        Log.d(&quot;RESTORED&quot;,&quot;&quot;+ambulanceList); 
+<a name="l392"><span class="ln">392  </span></a>        super.onRestoreInstanceState(savedInstanceState); 
+<a name="l393"><span class="ln">393  </span></a>    } 
+<a name="l394"><span class="ln">394  </span></a>*/</span><span class="s1"> 
+<a name="l395"><span class="ln">395  </span></a> 
+<a name="l396"><span class="ln">396  </span></a>    @Override 
+<a name="l397"><span class="ln">397  </span></a>    </span><span class="s0">protected void </span><span class="s1">onActivityResult(</span><span class="s0">int </span><span class="s1">requestCode, </span><span class="s0">int </span><span class="s1">resultCode, Intent data) { 
+<a name="l398"><span class="ln">398  </span></a>        </span><span class="s0">if</span><span class="s1">(requestCode == SOURCE_PICKER_REQUESET){ 
+<a name="l399"><span class="ln">399  </span></a>            </span><span class="s0">if</span><span class="s1">(resultCode == RESULT_OK){ 
+<a name="l400"><span class="ln">400  </span></a>                Place place = PlacePicker.getPlace(</span><span class="s0">this</span><span class="s1">,data); 
+<a name="l401"><span class="ln">401  </span></a>                System.out.println(place.getName()); 
+<a name="l402"><span class="ln">402  </span></a>                source_name = (String) place.getName(); 
+<a name="l403"><span class="ln">403  </span></a>                source.setText(source_name); 
+<a name="l404"><span class="ln">404  </span></a>                sourceLatLang = place.getLatLng(); 
+<a name="l405"><span class="ln">405  </span></a>                </span><span class="s2">/*String toastMsg = String.format(&quot;place: %s&quot;, sourceLatLang); 
+<a name="l406"><span class="ln">406  </span></a>                String lat = String.valueOf(sourceLatLang.latitude); 
+<a name="l407"><span class="ln">407  </span></a>                String lang = String.valueOf(sourceLatLang.longitude); 
+<a name="l408"><span class="ln">408  </span></a>                String ltln = lat+&quot;,&quot;+lang; 
+<a name="l409"><span class="ln">409  </span></a>                System.out.println(&quot;ltln&quot;+ltln); 
+<a name="l410"><span class="ln">410  </span></a>                System.out.println(&quot;source lat lang...&quot;+sourceLatLang)*/</span><span class="s1">; 
+<a name="l411"><span class="ln">411  </span></a> 
+<a name="l412"><span class="ln">412  </span></a> 
+<a name="l413"><span class="ln">413  </span></a>                </span><span class="s2">//Toast.makeText(this,toastMsg,Toast.LENGTH_LONG);</span><span class="s1"> 
+<a name="l414"><span class="ln">414  </span></a>                addMarker(sourceLatLang,source_name,SOURCE_FLAG); 
+<a name="l415"><span class="ln">415  </span></a> 
+<a name="l416"><span class="ln">416  </span></a>            } 
+<a name="l417"><span class="ln">417  </span></a>        } 
+<a name="l418"><span class="ln">418  </span></a>        </span><span class="s0">if</span><span class="s1">(requestCode == DESTINATION_PICKER_REQUEST){ 
+<a name="l419"><span class="ln">419  </span></a>            </span><span class="s0">if</span><span class="s1">(resultCode == RESULT_OK){ 
+<a name="l420"><span class="ln">420  </span></a>                Place place =  PlacePicker.getPlace(</span><span class="s0">this</span><span class="s1">,data); 
+<a name="l421"><span class="ln">421  </span></a>                destination_name = (String) place.getName(); 
+<a name="l422"><span class="ln">422  </span></a>                destination.setText(destination_name); 
+<a name="l423"><span class="ln">423  </span></a>                destinationLatLang = place.getLatLng(); 
+<a name="l424"><span class="ln">424  </span></a>                addMarker(destinationLatLang,destination_name,DESTINATION_FLAG); 
+<a name="l425"><span class="ln">425  </span></a></span><span class="s2">//                drawPath();</span><span class="s1"> 
+<a name="l426"><span class="ln">426  </span></a>                System.out.println(</span><span class="s4">&quot;destination lat lang...&quot;</span><span class="s1">+destinationLatLang); 
+<a name="l427"><span class="ln">427  </span></a> 
+<a name="l428"><span class="ln">428  </span></a> 
+<a name="l429"><span class="ln">429  </span></a>            } 
+<a name="l430"><span class="ln">430  </span></a>        } 
+<a name="l431"><span class="ln">431  </span></a> 
+<a name="l432"><span class="ln">432  </span></a>    } 
+<a name="l433"><span class="ln">433  </span></a> 
+<a name="l434"><span class="ln">434  </span></a> 
+<a name="l435"><span class="ln">435  </span></a> 
+<a name="l436"><span class="ln">436  </span></a></span><span class="s2">/* 
+<a name="l437"><span class="ln">437  </span></a>     @Override 
+<a name="l438"><span class="ln">438  </span></a>    public boolean onCreateOptionsMenu(Menu menu) { 
+<a name="l439"><span class="ln">439  </span></a>        getMenuInflater().inflate(R.menu.current_place_menu,menu); 
+<a name="l440"><span class="ln">440  </span></a>        return true; 
+<a name="l441"><span class="ln">441  </span></a>    } 
+<a name="l442"><span class="ln">442  </span></a> 
+<a name="l443"><span class="ln">443  </span></a>    @Override 
+<a name="l444"><span class="ln">444  </span></a>    public boolean onOptionsItemSelected(MenuItem item) { 
+<a name="l445"><span class="ln">445  </span></a>        if(item.getItemId() == R.id.current_location) { 
+<a name="l446"><span class="ln">446  </span></a>            updateLocationUI(); 
+<a name="l447"><span class="ln">447  </span></a>            Location deviceLocation  = getDeviceLocation(); 
+<a name="l448"><span class="ln">448  </span></a> 
+<a name="l449"><span class="ln">449  </span></a>            if(deviceLocation!=null){ 
+<a name="l450"><span class="ln">450  </span></a>                System.out.println(&quot;not null location value&quot;); 
+<a name="l451"><span class="ln">451  </span></a>                System.out.println(deviceLocation.getLongitude()); 
+<a name="l452"><span class="ln">452  </span></a>            }else { 
+<a name="l453"><span class="ln">453  </span></a>                System.out.println(&quot; null mlocation value&quot;); 
+<a name="l454"><span class="ln">454  </span></a>                //System.out.println(deviceLocation.getLongitude()); 
+<a name="l455"><span class="ln">455  </span></a> 
+<a name="l456"><span class="ln">456  </span></a> 
+<a name="l457"><span class="ln">457  </span></a>            } 
+<a name="l458"><span class="ln">458  </span></a>            Toast.makeText(this, &quot;current location&quot;, Toast.LENGTH_SHORT); 
+<a name="l459"><span class="ln">459  </span></a>        } 
+<a name="l460"><span class="ln">460  </span></a>        if(item.getItemId()==R.id.picker){ 
+<a name="l461"><span class="ln">461  </span></a>            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder(); 
+<a name="l462"><span class="ln">462  </span></a>            try { 
+<a name="l463"><span class="ln">463  </span></a>                startActivityForResult(builder.build(this),SOURCE_PICKER_REQUESET); 
+<a name="l464"><span class="ln">464  </span></a>            } catch (GooglePlayServicesRepairableException e) { 
+<a name="l465"><span class="ln">465  </span></a>                e.printStackTrace(); 
+<a name="l466"><span class="ln">466  </span></a>            } catch (GooglePlayServicesNotAvailableException e) { 
+<a name="l467"><span class="ln">467  </span></a>                e.printStackTrace(); 
+<a name="l468"><span class="ln">468  </span></a>            } 
+<a name="l469"><span class="ln">469  </span></a> 
+<a name="l470"><span class="ln">470  </span></a>        } 
+<a name="l471"><span class="ln">471  </span></a> 
+<a name="l472"><span class="ln">472  </span></a> 
+<a name="l473"><span class="ln">473  </span></a> 
+<a name="l474"><span class="ln">474  </span></a> 
+<a name="l475"><span class="ln">475  </span></a> 
+<a name="l476"><span class="ln">476  </span></a> 
+<a name="l477"><span class="ln">477  </span></a>        return true; 
+<a name="l478"><span class="ln">478  </span></a>    } 
+<a name="l479"><span class="ln">479  </span></a>    */</span><span class="s1"> 
+<a name="l480"><span class="ln">480  </span></a> 
+<a name="l481"><span class="ln">481  </span></a>    @Override 
+<a name="l482"><span class="ln">482  </span></a>    </span><span class="s0">public void </span><span class="s1">onMapReady(GoogleMap googleMap) { 
+<a name="l483"><span class="ln">483  </span></a>        mMap = googleMap; 
+<a name="l484"><span class="ln">484  </span></a> 
+<a name="l485"><span class="ln">485  </span></a>        </span><span class="s2">// Add a marker in Sydney and move the camera</span><span class="s1"> 
+<a name="l486"><span class="ln">486  </span></a>         </span><span class="s2">//LatLng pos = new LatLng(-34, 151);</span><span class="s1"> 
+<a name="l487"><span class="ln">487  </span></a>        </span><span class="s2">//  mMap.addMarker(new MarkerOptions().position(sydney).title(&quot;Marker in Sydney&quot;));</span><span class="s1"> 
+<a name="l488"><span class="ln">488  </span></a>        </span><span class="s2">// mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));</span><span class="s1"> 
+<a name="l489"><span class="ln">489  </span></a></span><span class="s2">/* 
+<a name="l490"><span class="ln">490  </span></a>        LatLng pos = new LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude()); 
+<a name="l491"><span class="ln">491  </span></a>        mMap.addMarker(new MarkerOptions().position(pos).title(&quot;current position&quot;)); 
+<a name="l492"><span class="ln">492  </span></a>        mMap.moveCamera(CameraUpdateFactory.newLatLng(pos)); 
+<a name="l493"><span class="ln">493  </span></a>*/</span><span class="s1"> 
+<a name="l494"><span class="ln">494  </span></a> 
+<a name="l495"><span class="ln">495  </span></a>      </span><span class="s2">/*  mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() { 
+<a name="l496"><span class="ln">496  </span></a> 
+<a name="l497"><span class="ln">497  </span></a>            @Override 
+<a name="l498"><span class="ln">498  </span></a>            // Return null here, so that getInfoContents() is called next. 
+<a name="l499"><span class="ln">499  </span></a>            public View getInfoWindow(Marker arg0) { 
+<a name="l500"><span class="ln">500  </span></a>                return null; 
+<a name="l501"><span class="ln">501  </span></a>            } 
+<a name="l502"><span class="ln">502  </span></a> 
+<a name="l503"><span class="ln">503  </span></a>            @Override 
+<a name="l504"><span class="ln">504  </span></a>            public View getInfoContents(Marker marker) { 
+<a name="l505"><span class="ln">505  </span></a>                // Inflate the layouts for the info window, title and snippet. 
+<a name="l506"><span class="ln">506  </span></a>                View infoWindow = getLayoutInflater().inflate(R.layout.custom_info_contents, 
+<a name="l507"><span class="ln">507  </span></a>                        (FrameLayout) findViewById(R.id.map), false); 
+<a name="l508"><span class="ln">508  </span></a> 
+<a name="l509"><span class="ln">509  </span></a>                TextView title = ((TextView) infoWindow.findViewById(R.id.title)); 
+<a name="l510"><span class="ln">510  </span></a>                title.setText(marker.getTitle()); 
+<a name="l511"><span class="ln">511  </span></a> 
+<a name="l512"><span class="ln">512  </span></a>                TextView snippet = ((TextView) infoWindow.findViewById(R.id.snippet)); 
+<a name="l513"><span class="ln">513  </span></a>                snippet.setText(marker.getSnippet()); 
+<a name="l514"><span class="ln">514  </span></a> 
+<a name="l515"><span class="ln">515  </span></a>                return infoWindow; 
+<a name="l516"><span class="ln">516  </span></a>            } 
+<a name="l517"><span class="ln">517  </span></a> 
+<a name="l518"><span class="ln">518  </span></a>        }); 
+<a name="l519"><span class="ln">519  </span></a>*/</span><span class="s1"> 
+<a name="l520"><span class="ln">520  </span></a>        getLocationPermission(); 
+<a name="l521"><span class="ln">521  </span></a>        updateLocationUI(); 
+<a name="l522"><span class="ln">522  </span></a> 
+<a name="l523"><span class="ln">523  </span></a>    } 
+<a name="l524"><span class="ln">524  </span></a> 
+<a name="l525"><span class="ln">525  </span></a> 
+<a name="l526"><span class="ln">526  </span></a> 
+<a name="l527"><span class="ln">527  </span></a> 
+<a name="l528"><span class="ln">528  </span></a>    </span><span class="s0">private void </span><span class="s1">getLocationPermission() { 
+<a name="l529"><span class="ln">529  </span></a>    </span><span class="s2">/* 
+<a name="l530"><span class="ln">530  </span></a>     * Request location permission, so that we can get the location of the 
+<a name="l531"><span class="ln">531  </span></a>     * device. The result of the permission request is handled by a callback, 
+<a name="l532"><span class="ln">532  </span></a>     * onRequestPermissionsResult. 
+<a name="l533"><span class="ln">533  </span></a>     */</span><span class="s1"> 
+<a name="l534"><span class="ln">534  </span></a>        </span><span class="s0">if </span><span class="s1">(ContextCompat.checkSelfPermission(</span><span class="s0">this</span><span class="s1">.getApplicationContext(), 
+<a name="l535"><span class="ln">535  </span></a>                android.Manifest.permission.ACCESS_FINE_LOCATION) 
+<a name="l536"><span class="ln">536  </span></a>                == PackageManager.PERMISSION_GRANTED) { 
+<a name="l537"><span class="ln">537  </span></a>            mLocationPermissionGranted = </span><span class="s0">true</span><span class="s1">; 
+<a name="l538"><span class="ln">538  </span></a>        } </span><span class="s0">else </span><span class="s1">{ 
+<a name="l539"><span class="ln">539  </span></a>            ActivityCompat.requestPermissions(</span><span class="s0">this</span><span class="s1">, 
+<a name="l540"><span class="ln">540  </span></a>                    </span><span class="s0">new </span><span class="s1">String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 
+<a name="l541"><span class="ln">541  </span></a>                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION); 
+<a name="l542"><span class="ln">542  </span></a>        } 
+<a name="l543"><span class="ln">543  </span></a>    } 
+<a name="l544"><span class="ln">544  </span></a> 
+<a name="l545"><span class="ln">545  </span></a> 
+<a name="l546"><span class="ln">546  </span></a>    @Override 
+<a name="l547"><span class="ln">547  </span></a>    </span><span class="s0">public void </span><span class="s1">onRequestPermissionsResult(</span><span class="s0">int </span><span class="s1">requestCode, 
+<a name="l548"><span class="ln">548  </span></a>                                           @NonNull String permissions[], 
+<a name="l549"><span class="ln">549  </span></a>                                           @NonNull </span><span class="s0">int</span><span class="s1">[] grantResults) { 
+<a name="l550"><span class="ln">550  </span></a>        mLocationPermissionGranted = </span><span class="s0">false</span><span class="s1">; 
+<a name="l551"><span class="ln">551  </span></a>        </span><span class="s0">switch </span><span class="s1">(requestCode) { 
+<a name="l552"><span class="ln">552  </span></a>            </span><span class="s0">case </span><span class="s1">PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: { 
+<a name="l553"><span class="ln">553  </span></a>                </span><span class="s2">// If request is cancelled, the result arrays are empty.</span><span class="s1"> 
+<a name="l554"><span class="ln">554  </span></a>                </span><span class="s0">if </span><span class="s1">(grantResults.length &gt; </span><span class="s3">0</span><span class="s1"> 
+<a name="l555"><span class="ln">555  </span></a>                        &amp;&amp; grantResults[</span><span class="s3">0</span><span class="s1">] == PackageManager.PERMISSION_GRANTED) { 
+<a name="l556"><span class="ln">556  </span></a>                    mLocationPermissionGranted = </span><span class="s0">true</span><span class="s1">; 
+<a name="l557"><span class="ln">557  </span></a>                } 
+<a name="l558"><span class="ln">558  </span></a>            } 
+<a name="l559"><span class="ln">559  </span></a>        } 
+<a name="l560"><span class="ln">560  </span></a>        updateLocationUI(); 
+<a name="l561"><span class="ln">561  </span></a>    } 
+<a name="l562"><span class="ln">562  </span></a> 
+<a name="l563"><span class="ln">563  </span></a> 
+<a name="l564"><span class="ln">564  </span></a>    </span><span class="s0">private void </span><span class="s1">updateLocationUI() { 
+<a name="l565"><span class="ln">565  </span></a>        </span><span class="s0">if </span><span class="s1">(mMap == </span><span class="s0">null</span><span class="s1">) { 
+<a name="l566"><span class="ln">566  </span></a>            </span><span class="s0">return</span><span class="s1">; 
+<a name="l567"><span class="ln">567  </span></a>        } 
+<a name="l568"><span class="ln">568  </span></a>        </span><span class="s0">try </span><span class="s1">{ 
+<a name="l569"><span class="ln">569  </span></a>            </span><span class="s0">if </span><span class="s1">(mLocationPermissionGranted) { 
+<a name="l570"><span class="ln">570  </span></a>                mMap.setMyLocationEnabled(</span><span class="s0">true</span><span class="s1">); 
+<a name="l571"><span class="ln">571  </span></a>                mMap.getUiSettings().setMyLocationButtonEnabled(</span><span class="s0">true</span><span class="s1">); 
+<a name="l572"><span class="ln">572  </span></a>            } </span><span class="s0">else </span><span class="s1">{ 
+<a name="l573"><span class="ln">573  </span></a>                mMap.setMyLocationEnabled(</span><span class="s0">false</span><span class="s1">); 
+<a name="l574"><span class="ln">574  </span></a>                mMap.getUiSettings().setMyLocationButtonEnabled(</span><span class="s0">false</span><span class="s1">); 
+<a name="l575"><span class="ln">575  </span></a>               </span><span class="s2">// mLastKnownLocation = null;</span><span class="s1"> 
+<a name="l576"><span class="ln">576  </span></a>                getLocationPermission(); 
+<a name="l577"><span class="ln">577  </span></a>            } 
+<a name="l578"><span class="ln">578  </span></a>        } </span><span class="s0">catch </span><span class="s1">(SecurityException e)  { 
+<a name="l579"><span class="ln">579  </span></a>            Log.e(</span><span class="s4">&quot;Exception: %s&quot;</span><span class="s1">, e.getMessage()); 
+<a name="l580"><span class="ln">580  </span></a>        } 
+<a name="l581"><span class="ln">581  </span></a>    } 
+<a name="l582"><span class="ln">582  </span></a> 
+<a name="l583"><span class="ln">583  </span></a> 
+<a name="l584"><span class="ln">584  </span></a>    </span><span class="s0">protected </span><span class="s1">Location getDeviceLocation() { 
+<a name="l585"><span class="ln">585  </span></a>        System.out.println(</span><span class="s4">&quot; getting device location &quot;</span><span class="s1">); 
+<a name="l586"><span class="ln">586  </span></a> 
+<a name="l587"><span class="ln">587  </span></a> 
+<a name="l588"><span class="ln">588  </span></a>    </span><span class="s2">/* 
+<a name="l589"><span class="ln">589  </span></a>     * Get the best and most recent location of the device, which may be null in rare 
+<a name="l590"><span class="ln">590  </span></a>     * cases when a location is not available. 
+<a name="l591"><span class="ln">591  </span></a>     */</span><span class="s1"> 
+<a name="l592"><span class="ln">592  </span></a>        </span><span class="s0">try </span><span class="s1">{ 
+<a name="l593"><span class="ln">593  </span></a>            </span><span class="s0">if </span><span class="s1">(mLocationPermissionGranted) { 
+<a name="l594"><span class="ln">594  </span></a>                Task locationResult = mFusedLocationProviderClient.getLastLocation(); 
+<a name="l595"><span class="ln">595  </span></a>                locationResult.addOnCompleteListener(</span><span class="s0">this</span><span class="s1">, </span><span class="s0">new </span><span class="s1">OnCompleteListener() { 
+<a name="l596"><span class="ln">596  </span></a>                    @Override 
+<a name="l597"><span class="ln">597  </span></a>                    </span><span class="s0">public void </span><span class="s1">onComplete(@NonNull Task task) { 
+<a name="l598"><span class="ln">598  </span></a>                        </span><span class="s0">if </span><span class="s1">(task.isSuccessful()) { 
+<a name="l599"><span class="ln">599  </span></a> 
+<a name="l600"><span class="ln">600  </span></a>                            </span><span class="s2">// Set the map's camera position to the current location of the device.</span><span class="s1"> 
+<a name="l601"><span class="ln">601  </span></a>                            mLastKnownLocation = (Location) task.getResult(); 
+<a name="l602"><span class="ln">602  </span></a>                            </span><span class="s0">if</span><span class="s1">(mLastKnownLocation!=</span><span class="s0">null</span><span class="s1">){ 
+<a name="l603"><span class="ln">603  </span></a>                                System.out.println(</span><span class="s4">&quot;1111not null location value&quot;</span><span class="s1">); 
+<a name="l604"><span class="ln">604  </span></a>                                System.out.println(mLastKnownLocation.getLongitude()); 
+<a name="l605"><span class="ln">605  </span></a> 
+<a name="l606"><span class="ln">606  </span></a>                                snewlatlang = </span><span class="s0">new </span><span class="s1">LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude()); 
+<a name="l607"><span class="ln">607  </span></a> 
+<a name="l608"><span class="ln">608  </span></a>                            }</span><span class="s0">else </span><span class="s1">{ 
+<a name="l609"><span class="ln">609  </span></a>                                System.out.println(</span><span class="s4">&quot; 1111null mlocation value&quot;</span><span class="s1">); 
+<a name="l610"><span class="ln">610  </span></a>                            } 
+<a name="l611"><span class="ln">611  </span></a>                            LatLng p = </span><span class="s0">new </span><span class="s1">LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation 
+<a name="l612"><span class="ln">612  </span></a>                                    .getLongitude()); 
+<a name="l613"><span class="ln">613  </span></a>                          </span><span class="s2">// addMarker(p);</span><span class="s1"> 
+<a name="l614"><span class="ln">614  </span></a> 
+<a name="l615"><span class="ln">615  </span></a> 
+<a name="l616"><span class="ln">616  </span></a>                        } </span><span class="s0">else </span><span class="s1">{ 
+<a name="l617"><span class="ln">617  </span></a>                            System.out.println(</span><span class="s4">&quot;current locationis nulll&quot;</span><span class="s1">); 
+<a name="l618"><span class="ln">618  </span></a>                            Log.d(TAG, </span><span class="s4">&quot;Current location is null. Using defaults.&quot;</span><span class="s1">); 
+<a name="l619"><span class="ln">619  </span></a>                            Log.e(TAG, </span><span class="s4">&quot;Exception: %s&quot;</span><span class="s1">, task.getException()); 
+<a name="l620"><span class="ln">620  </span></a>                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM)); 
+<a name="l621"><span class="ln">621  </span></a>                            mMap.getUiSettings().setMyLocationButtonEnabled(</span><span class="s0">false</span><span class="s1">); 
+<a name="l622"><span class="ln">622  </span></a>                        } 
+<a name="l623"><span class="ln">623  </span></a>                    } 
+<a name="l624"><span class="ln">624  </span></a>                }); 
+<a name="l625"><span class="ln">625  </span></a>            } 
+<a name="l626"><span class="ln">626  </span></a>            </span><span class="s0">else</span><span class="s1">{ 
+<a name="l627"><span class="ln">627  </span></a>                getLocationPermission(); 
+<a name="l628"><span class="ln">628  </span></a>            } 
+<a name="l629"><span class="ln">629  </span></a>        } </span><span class="s0">catch</span><span class="s1">(SecurityException e)  { 
+<a name="l630"><span class="ln">630  </span></a>            Log.e(</span><span class="s4">&quot;Exception: %s&quot;</span><span class="s1">, e.getMessage()); 
+<a name="l631"><span class="ln">631  </span></a>        } 
+<a name="l632"><span class="ln">632  </span></a>        </span><span class="s0">return </span><span class="s1">mLastKnownLocation; 
+<a name="l633"><span class="ln">633  </span></a>    } 
+<a name="l634"><span class="ln">634  </span></a> </span><span class="s0">protected void </span><span class="s1">selectSource(){ 
+<a name="l635"><span class="ln">635  </span></a>     PlacePicker.IntentBuilder builder = </span><span class="s0">new </span><span class="s1">PlacePicker.IntentBuilder(); 
+<a name="l636"><span class="ln">636  </span></a>     </span><span class="s0">try </span><span class="s1">{ 
+<a name="l637"><span class="ln">637  </span></a>         startActivityForResult(builder.build(</span><span class="s0">this</span><span class="s1">),SOURCE_PICKER_REQUESET); 
+<a name="l638"><span class="ln">638  </span></a>     } </span><span class="s0">catch </span><span class="s1">(GooglePlayServicesRepairableException e) { 
+<a name="l639"><span class="ln">639  </span></a>         e.printStackTrace(); 
+<a name="l640"><span class="ln">640  </span></a>     } </span><span class="s0">catch </span><span class="s1">(GooglePlayServicesNotAvailableException e) { 
+<a name="l641"><span class="ln">641  </span></a>         e.printStackTrace(); 
+<a name="l642"><span class="ln">642  </span></a>     } 
+<a name="l643"><span class="ln">643  </span></a> } 
+<a name="l644"><span class="ln">644  </span></a></span><span class="s0">protected void </span><span class="s1">selectDestination(){ 
+<a name="l645"><span class="ln">645  </span></a>    PlacePicker.IntentBuilder builder = </span><span class="s0">new </span><span class="s1">PlacePicker.IntentBuilder(); 
+<a name="l646"><span class="ln">646  </span></a>    </span><span class="s0">try </span><span class="s1">{ 
+<a name="l647"><span class="ln">647  </span></a>        startActivityForResult(builder.build(</span><span class="s0">this</span><span class="s1">),DESTINATION_PICKER_REQUEST); 
+<a name="l648"><span class="ln">648  </span></a>    } </span><span class="s0">catch </span><span class="s1">(GooglePlayServicesRepairableException e) { 
+<a name="l649"><span class="ln">649  </span></a>        e.printStackTrace(); 
+<a name="l650"><span class="ln">650  </span></a>    } </span><span class="s0">catch </span><span class="s1">(GooglePlayServicesNotAvailableException e) { 
+<a name="l651"><span class="ln">651  </span></a>        e.printStackTrace(); 
+<a name="l652"><span class="ln">652  </span></a>    } 
+<a name="l653"><span class="ln">653  </span></a> 
+<a name="l654"><span class="ln">654  </span></a>    </span><span class="s2">/*final Handler handler = new Handler(); 
+<a name="l655"><span class="ln">655  </span></a>    handler.postDelayed(new Runnable() { 
+<a name="l656"><span class="ln">656  </span></a>        @Override 
+<a name="l657"><span class="ln">657  </span></a>        public void run() { 
+<a name="l658"><span class="ln">658  </span></a>            //Do something after 
+<a name="l659"><span class="ln">659  </span></a>            DrawRouteMaps.getInstance(getApplicationContext()) 
+<a name="l660"><span class="ln">660  </span></a>                    .draw(snewlatlang, destinationLatLang, mMap); 
+<a name="l661"><span class="ln">661  </span></a>        } 
+<a name="l662"><span class="ln">662  </span></a>    }, 1000);*/</span><span class="s1"> 
+<a name="l663"><span class="ln">663  </span></a>} 
+<a name="l664"><span class="ln">664  </span></a> 
+<a name="l665"><span class="ln">665  </span></a> 
+<a name="l666"><span class="ln">666  </span></a> 
+<a name="l667"><span class="ln">667  </span></a></span><span class="s0">protected void </span><span class="s1">getDistance(LatLng source, LatLng destination, </span><span class="s0">final int </span><span class="s1">flag){ 
+<a name="l668"><span class="ln">668  </span></a>    progressBar.setVisibility(View.VISIBLE); 
+<a name="l669"><span class="ln">669  </span></a>    </span><span class="s0">if</span><span class="s1">((source!=</span><span class="s0">null</span><span class="s1">) &amp;&amp; (destination!=</span><span class="s0">null</span><span class="s1">) &amp;&amp; (source.toString().equals(destination.toString()))){ 
+<a name="l670"><span class="ln">670  </span></a>        System.out.println(</span><span class="s4">&quot;select different destination&quot;</span><span class="s1">); 
+<a name="l671"><span class="ln">671  </span></a>    } 
+<a name="l672"><span class="ln">672  </span></a>    </span><span class="s0">else if</span><span class="s1">(source == </span><span class="s0">null </span><span class="s1">&amp;&amp; (destination!=</span><span class="s0">null</span><span class="s1">)){ 
+<a name="l673"><span class="ln">673  </span></a>        System.out.println(</span><span class="s4">&quot;source is null&quot;</span><span class="s1">); 
+<a name="l674"><span class="ln">674  </span></a>    } 
+<a name="l675"><span class="ln">675  </span></a>    </span><span class="s0">else if </span><span class="s1">((source!=</span><span class="s0">null</span><span class="s1">)&amp;&amp; (destination==</span><span class="s0">null</span><span class="s1">)){ 
+<a name="l676"><span class="ln">676  </span></a>        System.out.println(</span><span class="s4">&quot;destination is null&quot;</span><span class="s1">); 
+<a name="l677"><span class="ln">677  </span></a>    } 
+<a name="l678"><span class="ln">678  </span></a>    </span><span class="s0">else if</span><span class="s1">((source==</span><span class="s0">null</span><span class="s1">) &amp;&amp; (destination == </span><span class="s0">null</span><span class="s1">)){ 
+<a name="l679"><span class="ln">679  </span></a>        System.out.println(</span><span class="s4">&quot;source and destination are null&quot;</span><span class="s1">); 
+<a name="l680"><span class="ln">680  </span></a>    } 
+<a name="l681"><span class="ln">681  </span></a> 
+<a name="l682"><span class="ln">682  </span></a>    </span><span class="s0">else if</span><span class="s1">((source!=</span><span class="s0">null</span><span class="s1">) &amp;&amp; (destination!=</span><span class="s0">null</span><span class="s1">)) { 
+<a name="l683"><span class="ln">683  </span></a>        String dltlng = destination.latitude+</span><span class="s4">&quot;%2C&quot;</span><span class="s1">+destination.longitude; 
+<a name="l684"><span class="ln">684  </span></a>        String sltlng = source.latitude+</span><span class="s4">&quot;,&quot;</span><span class="s1">+source.longitude; 
+<a name="l685"><span class="ln">685  </span></a>        String url = </span><span class="s4">&quot;https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&amp;origins=&quot;</span><span class="s1">+sltlng+</span><span class="s4">&quot;&amp;destinations=&quot;</span><span class="s1">+dltlng+</span><span class="s4">&quot;&amp;key=AIzaSyAtCsHgfQpJ8kxho7oWtr9SeRN9kwdVKQE &quot;</span><span class="s1">; 
+<a name="l686"><span class="ln">686  </span></a> 
+<a name="l687"><span class="ln">687  </span></a>        </span><span class="s2">// String url = &quot;https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&amp;origins=40.6655101,-73.89188969999998&amp;destinations=40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626%7C40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626&amp;key=AIzaSyAtCsHgfQpJ8kxho7oWtr9SeRN9kwdVKQE &quot;;</span><span class="s1"> 
+<a name="l688"><span class="ln">688  </span></a>        </span><span class="s2">//JSONObject jsonObject = new JSONObject();</span><span class="s1"> 
+<a name="l689"><span class="ln">689  </span></a>        </span><span class="s0">final </span><span class="s1">JsonObjectRequest jsonObjectRequest = </span><span class="s0">new </span><span class="s1">JsonObjectRequest(Request.Method.POST, url, </span><span class="s0">null</span><span class="s1">, </span><span class="s0">new </span><span class="s1">Response.Listener&lt;JSONObject&gt;() { 
+<a name="l690"><span class="ln">690  </span></a>            @Override 
+<a name="l691"><span class="ln">691  </span></a>            </span><span class="s0">public void </span><span class="s1">onResponse(JSONObject response) { 
+<a name="l692"><span class="ln">692  </span></a>                System.out.println(</span><span class="s4">&quot;response is**#$%^ee^r** &quot;</span><span class="s1">); 
+<a name="l693"><span class="ln">693  </span></a>                System.out.println(response.toString()); 
+<a name="l694"><span class="ln">694  </span></a>                progressBar.setVisibility(View.INVISIBLE); 
+<a name="l695"><span class="ln">695  </span></a>                </span><span class="s0">try </span><span class="s1">{ 
+<a name="l696"><span class="ln">696  </span></a>                    JSONObject elements = response.getJSONArray(</span><span class="s4">&quot;rows&quot;</span><span class="s1">).getJSONObject(</span><span class="s3">0</span><span class="s1">).getJSONArray(</span><span class="s4">&quot;elements&quot;</span><span class="s1">).getJSONObject(</span><span class="s3">0</span><span class="s1">); 
+<a name="l697"><span class="ln">697  </span></a> 
+<a name="l698"><span class="ln">698  </span></a>                    String distance_text = elements.getJSONObject(</span><span class="s4">&quot;distance&quot;</span><span class="s1">).getString(</span><span class="s4">&quot;text&quot;</span><span class="s1">); 
+<a name="l699"><span class="ln">699  </span></a>                    String time_text = elements.getJSONObject(</span><span class="s4">&quot;duration&quot;</span><span class="s1">).getString(</span><span class="s4">&quot;text&quot;</span><span class="s1">); 
+<a name="l700"><span class="ln">700  </span></a>                    distance_value = elements.getJSONObject(</span><span class="s4">&quot;distance&quot;</span><span class="s1">).getInt(</span><span class="s4">&quot;value&quot;</span><span class="s1">); 
+<a name="l701"><span class="ln">701  </span></a> 
+<a name="l702"><span class="ln">702  </span></a>                    </span><span class="s0">if</span><span class="s1">(flag == ACTION_SET_TEXT){ 
+<a name="l703"><span class="ln">703  </span></a>                    distance.setText(distance_text); 
+<a name="l704"><span class="ln">704  </span></a>                    eta.setText(time_text); 
+<a name="l705"><span class="ln">705  </span></a>                    } 
+<a name="l706"><span class="ln">706  </span></a> 
+<a name="l707"><span class="ln">707  </span></a>                    System.out.println(</span><span class="s4">&quot;distance is #$#$#$&quot;</span><span class="s1">+distance); 
+<a name="l708"><span class="ln">708  </span></a>                } </span><span class="s0">catch </span><span class="s1">(JSONException e) { 
+<a name="l709"><span class="ln">709  </span></a>                    e.printStackTrace(); 
+<a name="l710"><span class="ln">710  </span></a>                } 
+<a name="l711"><span class="ln">711  </span></a> 
+<a name="l712"><span class="ln">712  </span></a>            } 
+<a name="l713"><span class="ln">713  </span></a>        }, </span><span class="s0">new </span><span class="s1">Response.ErrorListener() { 
+<a name="l714"><span class="ln">714  </span></a>            @Override 
+<a name="l715"><span class="ln">715  </span></a>            </span><span class="s0">public void </span><span class="s1">onErrorResponse(VolleyError error) { 
+<a name="l716"><span class="ln">716  </span></a>                progressBar.setVisibility(View.INVISIBLE); 
+<a name="l717"><span class="ln">717  </span></a>                System.out.println(</span><span class="s4">&quot;error****&quot;</span><span class="s1">); 
+<a name="l718"><span class="ln">718  </span></a>                System.out.println(error); 
+<a name="l719"><span class="ln">719  </span></a> 
+<a name="l720"><span class="ln">720  </span></a>                </span><span class="s2">// As of f605da3 the following should work</span><span class="s1"> 
+<a name="l721"><span class="ln">721  </span></a>                NetworkResponse response = error.networkResponse; 
+<a name="l722"><span class="ln">722  </span></a>                </span><span class="s0">if </span><span class="s1">(error </span><span class="s0">instanceof </span><span class="s1">ServerError &amp;&amp; response != </span><span class="s0">null</span><span class="s1">) { 
+<a name="l723"><span class="ln">723  </span></a>                    </span><span class="s0">try </span><span class="s1">{ 
+<a name="l724"><span class="ln">724  </span></a>                        String res = </span><span class="s0">new </span><span class="s1">String(response.data, 
+<a name="l725"><span class="ln">725  </span></a>                                HttpHeaderParser.parseCharset(response.headers, </span><span class="s4">&quot;utf-8&quot;</span><span class="s1">)); 
+<a name="l726"><span class="ln">726  </span></a>                        </span><span class="s2">// Now you can use any deserializer to make sense of data</span><span class="s1"> 
+<a name="l727"><span class="ln">727  </span></a>                        JSONObject obj = </span><span class="s0">new </span><span class="s1">JSONObject(res); 
+<a name="l728"><span class="ln">728  </span></a>                        System.out.println(</span><span class="s4">&quot;json obj on er@@ror&quot; </span><span class="s1">+ obj.toString()); 
+<a name="l729"><span class="ln">729  </span></a>                    } </span><span class="s0">catch </span><span class="s1">(UnsupportedEncodingException e1) { 
+<a name="l730"><span class="ln">730  </span></a>                        </span><span class="s2">// Couldn't properly decode data to string</span><span class="s1"> 
+<a name="l731"><span class="ln">731  </span></a>                        e1.printStackTrace(); 
+<a name="l732"><span class="ln">732  </span></a>                    } </span><span class="s0">catch </span><span class="s1">(JSONException e2) { 
+<a name="l733"><span class="ln">733  </span></a>                        </span><span class="s2">// returned data is not JSONObject?</span><span class="s1"> 
+<a name="l734"><span class="ln">734  </span></a>                        e2.printStackTrace(); 
+<a name="l735"><span class="ln">735  </span></a>                    } 
+<a name="l736"><span class="ln">736  </span></a>                } 
+<a name="l737"><span class="ln">737  </span></a> 
+<a name="l738"><span class="ln">738  </span></a> 
+<a name="l739"><span class="ln">739  </span></a>            } 
+<a name="l740"><span class="ln">740  </span></a>        }); 
+<a name="l741"><span class="ln">741  </span></a> 
+<a name="l742"><span class="ln">742  </span></a>        jsonObjectRequest.setRetryPolicy(</span><span class="s0">new </span><span class="s1">DefaultRetryPolicy(MY_SOCKET_TIMEOUT_MS, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)); 
+<a name="l743"><span class="ln">743  </span></a> 
+<a name="l744"><span class="ln">744  </span></a> 
+<a name="l745"><span class="ln">745  </span></a>        MySingleton.getInstance(</span><span class="s0">this</span><span class="s1">).addToRequestQueue(jsonObjectRequest); 
+<a name="l746"><span class="ln">746  </span></a>    } 
+<a name="l747"><span class="ln">747  </span></a>} 
+<a name="l748"><span class="ln">748  </span></a> 
+<a name="l749"><span class="ln">749  </span></a> 
+<a name="l750"><span class="ln">750  </span></a>    </span><span class="s0">protected void </span><span class="s1">getOrderedDistanceAndTime(LatLng source,List&lt;LatLng&gt; point,List&lt;VehicleDetail2&gt; vl){ 
+<a name="l751"><span class="ln">751  </span></a>        progressBar.setVisibility(View.VISIBLE); 
+<a name="l752"><span class="ln">752  </span></a>        ambulanceList.clear(); 
+<a name="l753"><span class="ln">753  </span></a> 
+<a name="l754"><span class="ln">754  </span></a>        </span><span class="s0">if</span><span class="s1">(source==</span><span class="s0">null</span><span class="s1">){ 
+<a name="l755"><span class="ln">755  </span></a>            Toast.makeText(</span><span class="s0">this</span><span class="s1">,</span><span class="s4">&quot;Unable to get location choose Source &quot;</span><span class="s1">,Toast.LENGTH_LONG).show(); 
+<a name="l756"><span class="ln">756  </span></a>            </span><span class="s0">return</span><span class="s1">; 
+<a name="l757"><span class="ln">757  </span></a>        } 
+<a name="l758"><span class="ln">758  </span></a> 
+<a name="l759"><span class="ln">759  </span></a> 
+<a name="l760"><span class="ln">760  </span></a>         </span><span class="s0">if</span><span class="s1">((source!=</span><span class="s0">null</span><span class="s1">) &amp;&amp; (vl!=</span><span class="s0">null</span><span class="s1">)) { 
+<a name="l761"><span class="ln">761  </span></a> 
+<a name="l762"><span class="ln">762  </span></a> 
+<a name="l763"><span class="ln">763  </span></a>             </span><span class="s2">// System.out.println(&quot;##########vl&quot; + vl.toString());</span><span class="s1"> 
+<a name="l764"><span class="ln">764  </span></a>             </span><span class="s2">//String dltlng = destination.latitude+&quot;%2C&quot;+destination.longitude;</span><span class="s1"> 
+<a name="l765"><span class="ln">765  </span></a>             String sltlng = source.latitude + </span><span class="s4">&quot;,&quot; </span><span class="s1">+ source.longitude; 
+<a name="l766"><span class="ln">766  </span></a>             </span><span class="s2">//  String dltlng = point.get(0).longitude+&quot;%2C&quot;+point.get(0).latitude;</span><span class="s1"> 
+<a name="l767"><span class="ln">767  </span></a> 
+<a name="l768"><span class="ln">768  </span></a>             String dltlng = vehicleDetail2List.get(</span><span class="s3">0</span><span class="s1">).getVehicleLat() + </span><span class="s4">&quot;%2C&quot; </span><span class="s1">+ vehicleDetail2List.get(</span><span class="s3">0</span><span class="s1">).getVehicleLang(); 
+<a name="l769"><span class="ln">769  </span></a>             </span><span class="s2">// String dltlng = vl.get(0).getVehicleLatLang().latitude + &quot;%2c&quot; + vl.get(0).getVehicleLatLang().longitude;</span><span class="s1"> 
+<a name="l770"><span class="ln">770  </span></a>             </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s3">1</span><span class="s1">; i &lt; vehicleDetail2List.size(); i++) { 
+<a name="l771"><span class="ln">771  </span></a>                 dltlng = dltlng + </span><span class="s4">&quot;%7C&quot; </span><span class="s1">+ vehicleDetail2List.get(i).getVehicleLat() + </span><span class="s4">&quot;%2C&quot; </span><span class="s1">+ vehicleDetail2List.get(i).getVehicleLang(); 
+<a name="l772"><span class="ln">772  </span></a>                 </span><span class="s2">//dltlng = dltlng + &quot;%7C&quot; + vl.get(i).getVehicleLatLang().latitude + &quot;%2C&quot; + vl.get(i).getVehicleLatLang().longitude;</span><span class="s1"> 
+<a name="l773"><span class="ln">773  </span></a>             } 
+<a name="l774"><span class="ln">774  </span></a>             System.out.println(</span><span class="s4">&quot;sadfasdfasd#######&quot; </span><span class="s1">+ dltlng); 
+<a name="l775"><span class="ln">775  </span></a>             </span><span class="s2">// String url=&quot;https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&amp;origins=40.6655101,-73.89188969999998&amp;destinations=40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626%7C40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626&amp;key=YOUR_API_KEY&quot;;</span><span class="s1"> 
+<a name="l776"><span class="ln">776  </span></a>             String url = </span><span class="s4">&quot;https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&amp;origins=&quot; </span><span class="s1">+ sltlng + </span><span class="s4">&quot;&amp;destinations=&quot; </span><span class="s1">+ dltlng + </span><span class="s4">&quot;&amp;key=AIzaSyAtCsHgfQpJ8kxho7oWtr9SeRN9kwdVKQE &quot;</span><span class="s1">; 
+<a name="l777"><span class="ln">777  </span></a> 
+<a name="l778"><span class="ln">778  </span></a>             </span><span class="s2">//String url = &quot;https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&amp;origins=40.6655101,-73.89188969999998&amp;destinations=40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626%7C40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626&amp;key=AIzaSyAtCsHgfQpJ8kxho7oWtr9SeRN9kwdVKQE &quot;;</span><span class="s1"> 
+<a name="l779"><span class="ln">779  </span></a>             </span><span class="s2">//JSONObject jsonObject = new JSONObject();</span><span class="s1"> 
+<a name="l780"><span class="ln">780  </span></a>           </span><span class="s0">try</span><span class="s1">{ 
+<a name="l781"><span class="ln">781  </span></a>             </span><span class="s0">final </span><span class="s1">JsonObjectRequest jsonObjectRequest = </span><span class="s0">new </span><span class="s1">JsonObjectRequest(Request.Method.POST, url, </span><span class="s0">null</span><span class="s1">, </span><span class="s0">new </span><span class="s1">Response.Listener&lt;JSONObject&gt;() { 
+<a name="l782"><span class="ln">782  </span></a>                 @Override 
+<a name="l783"><span class="ln">783  </span></a>                 </span><span class="s0">public void </span><span class="s1">onResponse(JSONObject response) { 
+<a name="l784"><span class="ln">784  </span></a>                     System.out.println(</span><span class="s4">&quot;response is**** &quot;</span><span class="s1">); 
+<a name="l785"><span class="ln">785  </span></a>                     System.out.println(response.toString()); 
+<a name="l786"><span class="ln">786  </span></a>                     progressBar.setVisibility(View.INVISIBLE); 
+<a name="l787"><span class="ln">787  </span></a>                     </span><span class="s0">try </span><span class="s1">{ 
+<a name="l788"><span class="ln">788  </span></a>                         JSONArray elements = response.getJSONArray(</span><span class="s4">&quot;rows&quot;</span><span class="s1">).getJSONObject(</span><span class="s3">0</span><span class="s1">).getJSONArray(</span><span class="s4">&quot;elements&quot;</span><span class="s1">); 
+<a name="l789"><span class="ln">789  </span></a>                         </span><span class="s2">//String distance_text = elements.getJSONObject(&quot;distance&quot;).getString(&quot;text&quot;);</span><span class="s1"> 
+<a name="l790"><span class="ln">790  </span></a>                         </span><span class="s2">//System.out.println(&quot;ds^^^^&quot;+distance_text);</span><span class="s1"> 
+<a name="l791"><span class="ln">791  </span></a>                         </span><span class="s2">//JSONObject el = response.getJSONArray(&quot;rows&quot;).getJSONObject(0).getJSONArray(&quot;elements&quot;).getJSONObject(1);</span><span class="s1"> 
+<a name="l792"><span class="ln">792  </span></a>                         String distanceText, etaText; 
+<a name="l793"><span class="ln">793  </span></a>                         </span><span class="s0">int </span><span class="s1">dvalue, tvalue; 
+<a name="l794"><span class="ln">794  </span></a>                         </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s3">0</span><span class="s1">; i &lt; elements.length(); i++) { 
+<a name="l795"><span class="ln">795  </span></a>                             JSONObject jsonObject = elements.getJSONObject(i); 
+<a name="l796"><span class="ln">796  </span></a>                             distanceText = jsonObject.getJSONObject(</span><span class="s4">&quot;distance&quot;</span><span class="s1">).getString(</span><span class="s4">&quot;text&quot;</span><span class="s1">); 
+<a name="l797"><span class="ln">797  </span></a>                             dvalue = Integer.parseInt(jsonObject.getJSONObject(</span><span class="s4">&quot;distance&quot;</span><span class="s1">).getString(</span><span class="s4">&quot;value&quot;</span><span class="s1">)); 
+<a name="l798"><span class="ln">798  </span></a> 
+<a name="l799"><span class="ln">799  </span></a>                             </span><span class="s2">//System.out.println(&quot;**(((())&quot;+distanceText);</span><span class="s1"> 
+<a name="l800"><span class="ln">800  </span></a>                             etaText = jsonObject.getJSONObject(</span><span class="s4">&quot;duration&quot;</span><span class="s1">).getString(</span><span class="s4">&quot;text&quot;</span><span class="s1">); 
+<a name="l801"><span class="ln">801  </span></a>                             tvalue = Integer.parseInt(jsonObject.getJSONObject(</span><span class="s4">&quot;duration&quot;</span><span class="s1">).getString(</span><span class="s4">&quot;value&quot;</span><span class="s1">)); 
+<a name="l802"><span class="ln">802  </span></a> 
+<a name="l803"><span class="ln">803  </span></a>                             </span><span class="s2">// System.out.println(&quot;eta %%***))()()(&quot;+etaText);</span><span class="s1"> 
+<a name="l804"><span class="ln">804  </span></a>                             </span><span class="s2">// ambulanceList.add(new MyList(&quot;name&quot;,distanceText,etaText,dvalue,tvalue,vehicleDetailList));</span><span class="s1"> 
+<a name="l805"><span class="ln">805  </span></a>                             ambulanceList.add(</span><span class="s0">new </span><span class="s1">MyList(</span><span class="s4">&quot;name&quot;</span><span class="s1">, distanceText, etaText, dvalue, tvalue, vehicleDetail2List)); 
+<a name="l806"><span class="ln">806  </span></a> 
+<a name="l807"><span class="ln">807  </span></a>                         } 
+<a name="l808"><span class="ln">808  </span></a> 
+<a name="l809"><span class="ln">809  </span></a>                         </span><span class="s2">//Adapter</span><span class="s1"> 
+<a name="l810"><span class="ln">810  </span></a> 
+<a name="l811"><span class="ln">811  </span></a>                         </span><span class="s2">//sorting list</span><span class="s1"> 
+<a name="l812"><span class="ln">812  </span></a> 
+<a name="l813"><span class="ln">813  </span></a>                         Collections.sort(ambulanceList, </span><span class="s0">new </span><span class="s1">Comparator&lt;MyList&gt;() { 
+<a name="l814"><span class="ln">814  </span></a>                             @Override 
+<a name="l815"><span class="ln">815  </span></a>                             </span><span class="s0">public int </span><span class="s1">compare(MyList o1, MyList o2) { 
+<a name="l816"><span class="ln">816  </span></a>                                 </span><span class="s0">return </span><span class="s1">Integer.valueOf(o1.getTval()).compareTo(o2.getTval()); 
+<a name="l817"><span class="ln">817  </span></a>                             } 
+<a name="l818"><span class="ln">818  </span></a>                         }); 
+<a name="l819"><span class="ln">819  </span></a> 
+<a name="l820"><span class="ln">820  </span></a> 
+<a name="l821"><span class="ln">821  </span></a>                         ambulanceAdapter = </span><span class="s0">new </span><span class="s1">AmbulanceAdapter(ambulanceList, getApplicationContext()); 
+<a name="l822"><span class="ln">822  </span></a>                         System.out.println(</span><span class="s4">&quot;$%$%$zlist&quot; </span><span class="s1">+ ambulanceList.toString()); 
+<a name="l823"><span class="ln">823  </span></a>                         mRecyclerView.setAdapter(ambulanceAdapter); 
+<a name="l824"><span class="ln">824  </span></a> 
+<a name="l825"><span class="ln">825  </span></a>                         </span><span class="s2">// distance.setText(distance_text);</span><span class="s1"> 
+<a name="l826"><span class="ln">826  </span></a>                         </span><span class="s2">//eta.setText(time_text);</span><span class="s1"> 
+<a name="l827"><span class="ln">827  </span></a>                         </span><span class="s2">// System.out.println(&quot;distance is #$#$#$&quot;+distance);</span><span class="s1"> 
+<a name="l828"><span class="ln">828  </span></a>                     } </span><span class="s0">catch </span><span class="s1">(JSONException e) { 
+<a name="l829"><span class="ln">829  </span></a>                         e.printStackTrace(); 
+<a name="l830"><span class="ln">830  </span></a>                     } 
+<a name="l831"><span class="ln">831  </span></a> 
+<a name="l832"><span class="ln">832  </span></a>                 } 
+<a name="l833"><span class="ln">833  </span></a>             }, </span><span class="s0">new </span><span class="s1">Response.ErrorListener() { 
+<a name="l834"><span class="ln">834  </span></a>                 @Override 
+<a name="l835"><span class="ln">835  </span></a>                 </span><span class="s0">public void </span><span class="s1">onErrorResponse(VolleyError error) { 
+<a name="l836"><span class="ln">836  </span></a>                     progressBar.setVisibility(View.INVISIBLE); 
+<a name="l837"><span class="ln">837  </span></a>                     System.out.println(</span><span class="s4">&quot;error****&quot;</span><span class="s1">); 
+<a name="l838"><span class="ln">838  </span></a>                     System.out.println(error); 
+<a name="l839"><span class="ln">839  </span></a>                     Toast.makeText(MainActivity.</span><span class="s0">this</span><span class="s1">, error.toString(), Toast.LENGTH_SHORT).show(); 
+<a name="l840"><span class="ln">840  </span></a> 
+<a name="l841"><span class="ln">841  </span></a> 
+<a name="l842"><span class="ln">842  </span></a>                     </span><span class="s2">// As of f605da3 the following should work</span><span class="s1"> 
+<a name="l843"><span class="ln">843  </span></a>                     NetworkResponse response = error.networkResponse; 
+<a name="l844"><span class="ln">844  </span></a>                     </span><span class="s0">if </span><span class="s1">(error </span><span class="s0">instanceof </span><span class="s1">ServerError &amp;&amp; response != </span><span class="s0">null</span><span class="s1">) { 
+<a name="l845"><span class="ln">845  </span></a>                         </span><span class="s0">try </span><span class="s1">{ 
+<a name="l846"><span class="ln">846  </span></a>                             String res = </span><span class="s0">new </span><span class="s1">String(response.data, 
+<a name="l847"><span class="ln">847  </span></a>                                     HttpHeaderParser.parseCharset(response.headers, </span><span class="s4">&quot;utf-8&quot;</span><span class="s1">)); 
+<a name="l848"><span class="ln">848  </span></a>                             </span><span class="s2">// Now you can use any deserializer to make sense of data</span><span class="s1"> 
+<a name="l849"><span class="ln">849  </span></a>                             JSONObject obj = </span><span class="s0">new </span><span class="s1">JSONObject(res); 
+<a name="l850"><span class="ln">850  </span></a>                             System.out.println(</span><span class="s4">&quot;json obj on er@@ror&quot; </span><span class="s1">+ obj.toString()); 
+<a name="l851"><span class="ln">851  </span></a>                         } </span><span class="s0">catch </span><span class="s1">(UnsupportedEncodingException e1) { 
+<a name="l852"><span class="ln">852  </span></a>                             </span><span class="s2">// Couldn't properly decode data to string</span><span class="s1"> 
+<a name="l853"><span class="ln">853  </span></a>                             e1.printStackTrace(); 
+<a name="l854"><span class="ln">854  </span></a>                         } </span><span class="s0">catch </span><span class="s1">(JSONException e2) { 
+<a name="l855"><span class="ln">855  </span></a>                             </span><span class="s2">// returned data is not JSONObject?</span><span class="s1"> 
+<a name="l856"><span class="ln">856  </span></a>                             e2.printStackTrace(); 
+<a name="l857"><span class="ln">857  </span></a>                         } 
+<a name="l858"><span class="ln">858  </span></a>                     } 
+<a name="l859"><span class="ln">859  </span></a> 
+<a name="l860"><span class="ln">860  </span></a> 
+<a name="l861"><span class="ln">861  </span></a>                 } 
+<a name="l862"><span class="ln">862  </span></a>             }); 
+<a name="l863"><span class="ln">863  </span></a> 
+<a name="l864"><span class="ln">864  </span></a>               jsonObjectRequest.setRetryPolicy(</span><span class="s0">new </span><span class="s1">DefaultRetryPolicy(MY_SOCKET_TIMEOUT_MS, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)); 
+<a name="l865"><span class="ln">865  </span></a> 
+<a name="l866"><span class="ln">866  </span></a> 
+<a name="l867"><span class="ln">867  </span></a>               MySingleton.getInstance(</span><span class="s0">this</span><span class="s1">).addToRequestQueue(jsonObjectRequest); 
+<a name="l868"><span class="ln">868  </span></a>         }</span><span class="s0">catch </span><span class="s1">(Exception e){ 
+<a name="l869"><span class="ln">869  </span></a> 
+<a name="l870"><span class="ln">870  </span></a>               e.printStackTrace(); 
+<a name="l871"><span class="ln">871  </span></a> 
+<a name="l872"><span class="ln">872  </span></a> 
+<a name="l873"><span class="ln">873  </span></a>           } 
+<a name="l874"><span class="ln">874  </span></a> 
+<a name="l875"><span class="ln">875  </span></a> 
+<a name="l876"><span class="ln">876  </span></a>             } 
+<a name="l877"><span class="ln">877  </span></a> 
+<a name="l878"><span class="ln">878  </span></a> 
+<a name="l879"><span class="ln">879  </span></a>    } 
+<a name="l880"><span class="ln">880  </span></a> 
+<a name="l881"><span class="ln">881  </span></a></span><span class="s0">void </span><span class="s1">refreshLocation(){ 
+<a name="l882"><span class="ln">882  </span></a>    Date d = </span><span class="s0">new </span><span class="s1">Date(); 
+<a name="l883"><span class="ln">883  </span></a>    CharSequence s  = DateFormat.format(</span><span class="s4">&quot;HH:mm:ss&quot;</span><span class="s1">, d.getTime()); 
+<a name="l884"><span class="ln">884  </span></a>    upTimeValue.setText(s.toString()); 
+<a name="l885"><span class="ln">885  </span></a>    System.out.println(</span><span class="s4">&quot;#$%^&amp;*()(*&amp;^%$%^&amp;*()(*&amp;^%&quot;</span><span class="s1">+s); 
+<a name="l886"><span class="ln">886  </span></a>        System.out.println(</span><span class="s4">&quot;DUMMMY21342341341234123&quot;</span><span class="s1">); 
+<a name="l887"><span class="ln">887  </span></a>    Location dlocation =getDeviceLocation(); 
+<a name="l888"><span class="ln">888  </span></a>    LatLng dlatlang; 
+<a name="l889"><span class="ln">889  </span></a>    getVehiclesLocation2(); 
+<a name="l890"><span class="ln">890  </span></a>    </span><span class="s0">if</span><span class="s1">(dlocation!=</span><span class="s0">null</span><span class="s1">){ 
+<a name="l891"><span class="ln">891  </span></a>        snewlatlang = </span><span class="s0">new </span><span class="s1">LatLng(dlocation.getLatitude(),dlocation.getLongitude()); 
+<a name="l892"><span class="ln">892  </span></a> 
+<a name="l893"><span class="ln">893  </span></a>       </span><span class="s2">/* if(ambulanceList!=null){ 
+<a name="l894"><span class="ln">894  </span></a>            //Log.d(&quot;vehicle&quot;,&quot; &quot;+ambulanceList.size()); 
+<a name="l895"><span class="ln">895  </span></a>            if(!ambulanceList.isEmpty()) { 
+<a name="l896"><span class="ln">896  </span></a>                vehicleLat = Double.parseDouble(ambulanceList.get(ind).getVehicleDetail().get(ind).getVehicleLat()); 
+<a name="l897"><span class="ln">897  </span></a>                vehicleLang = Double.parseDouble(ambulanceList.get(ind).getVehicleDetail().get(ind).getVehicleLang()); 
+<a name="l898"><span class="ln">898  </span></a>            } 
+<a name="l899"><span class="ln">899  </span></a>        }*/</span><span class="s1"> 
+<a name="l900"><span class="ln">900  </span></a> 
+<a name="l901"><span class="ln">901  </span></a>        dlatlang = </span><span class="s0">new </span><span class="s1">LatLng(vehicleLat,vehicleLang); 
+<a name="l902"><span class="ln">902  </span></a>        getDistance(snewlatlang,dlatlang,ACTION_SET_TEXT); 
+<a name="l903"><span class="ln">903  </span></a>        </span><span class="s0">if</span><span class="s1">(vehicleDetail2List!=</span><span class="s0">null</span><span class="s1">){ 
+<a name="l904"><span class="ln">904  </span></a>            </span><span class="s2">//getOrderedDistanceAndTime(snewlatlang,points,vehicleDetail2List);</span><span class="s1"> 
+<a name="l905"><span class="ln">905  </span></a>            </span><span class="s2">//getDistance(snewlatlang,dlatlang,ACTION_SET_TEXT);</span><span class="s1"> 
+<a name="l906"><span class="ln">906  </span></a>            Log.d(</span><span class="s4">&quot;DISTANCEVALUE&quot;</span><span class="s1">,</span><span class="s4">&quot;distance1000s jyada&quot;</span><span class="s1">+String.valueOf(distance_value)); 
+<a name="l907"><span class="ln">907  </span></a>            </span><span class="s0">if</span><span class="s1">(distance_value &lt; </span><span class="s3">1000</span><span class="s1">){ 
+<a name="l908"><span class="ln">908  </span></a>                upTimeMsg.setText(</span><span class="s4">&quot;It is here&quot;</span><span class="s1">); 
+<a name="l909"><span class="ln">909  </span></a>                Log.d(</span><span class="s4">&quot;DISTANCEVALUE&quot;</span><span class="s1">,</span><span class="s4">&quot;distance_value&quot;</span><span class="s1">+String.valueOf(distance_value)); 
+<a name="l910"><span class="ln">910  </span></a>                Intent lclIntent = </span><span class="s0">new </span><span class="s1">Intent(ACTION_UPDATE); 
+<a name="l911"><span class="ln">911  </span></a>                lclIntent.putExtra(</span><span class="s4">&quot;halt&quot;</span><span class="s1">,</span><span class="s4">&quot;1&quot;</span><span class="s1">); 
+<a name="l912"><span class="ln">912  </span></a> 
+<a name="l913"><span class="ln">913  </span></a>                </span><span class="s2">//localIntent.putExtra(&quot;t&quot;,&quot;23&quot;);</span><span class="s1"> 
+<a name="l914"><span class="ln">914  </span></a>                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(lclIntent); 
+<a name="l915"><span class="ln">915  </span></a>            } 
+<a name="l916"><span class="ln">916  </span></a>           </span><span class="s2">// distance.setText(ambulanceList.get(ind).getDistance().toString());</span><span class="s1"> 
+<a name="l917"><span class="ln">917  </span></a>            </span><span class="s2">//eta.setText(ambulanceList.get(ind).geteTime().toString());</span><span class="s1"> 
+<a name="l918"><span class="ln">918  </span></a>        } 
+<a name="l919"><span class="ln">919  </span></a>    } 
+<a name="l920"><span class="ln">920  </span></a> 
+<a name="l921"><span class="ln">921  </span></a> 
+<a name="l922"><span class="ln">922  </span></a> 
+<a name="l923"><span class="ln">923  </span></a>} 
+<a name="l924"><span class="ln">924  </span></a> 
+<a name="l925"><span class="ln">925  </span></a>    </span><span class="s0">void </span><span class="s1">getSelectedVehicle(){ 
+<a name="l926"><span class="ln">926  </span></a> 
+<a name="l927"><span class="ln">927  </span></a>        vehicleLat = Double.parseDouble(ambulanceList.get(ind).getVehicleDetail().get(ind).getVehicleLat()); 
+<a name="l928"><span class="ln">928  </span></a>        vehicleLang = Double.parseDouble(ambulanceList.get(ind).getVehicleDetail().get(ind).getVehicleLang()); 
+<a name="l929"><span class="ln">929  </span></a> 
+<a name="l930"><span class="ln">930  </span></a> 
+<a name="l931"><span class="ln">931  </span></a>    } 
+<a name="l932"><span class="ln">932  </span></a></span><span class="s2">/* 
+<a name="l933"><span class="ln">933  </span></a> 
+<a name="l934"><span class="ln">934  </span></a>   void getVehiclesLocation(){ 
+<a name="l935"><span class="ln">935  </span></a>        // Read from the database 
+<a name="l936"><span class="ln">936  </span></a>        //databaseReference.child(&quot;vehicle&quot;); 
+<a name="l937"><span class="ln">937  </span></a>       databaseReference = database.getReference().child(&quot;vehicle&quot;); 
+<a name="l938"><span class="ln">938  </span></a> 
+<a name="l939"><span class="ln">939  </span></a>        try { 
+<a name="l940"><span class="ln">940  </span></a>            databaseReference.addValueEventListener(new ValueEventListener() { 
+<a name="l941"><span class="ln">941  </span></a>                @Override 
+<a name="l942"><span class="ln">942  </span></a>                public void onDataChange(DataSnapshot dataSnapshot) { 
+<a name="l943"><span class="ln">943  </span></a>                    // This method is called once with the initial value and again 
+<a name="l944"><span class="ln">944  </span></a>                    // whenever data at this location is updated. 
+<a name="l945"><span class="ln">945  </span></a>                    String id; 
+<a name="l946"><span class="ln">946  </span></a>                    double lat,lang; 
+<a name="l947"><span class="ln">947  </span></a>                    //creating hashmap 
+<a name="l948"><span class="ln">948  </span></a>                   HashMap&lt;String,Object&gt; dataMap = (HashMap&lt;String, Object&gt;) dataSnapshot.getValue(); 
+<a name="l949"><span class="ln">949  </span></a>                    for(Map.Entry&lt;String,Object&gt; key : dataMap.entrySet()){ 
+<a name="l950"><span class="ln">950  </span></a>                        //String d = key.toString(); 
+<a name="l951"><span class="ln">951  </span></a>                        id = key.getKey(); 
+<a name="l952"><span class="ln">952  </span></a>                        Map d = (Map) key.getValue(); 
+<a name="l953"><span class="ln">953  </span></a>                        //System.out.println(d); 
+<a name="l954"><span class="ln">954  </span></a>                        lat = (double) d.get(&quot;lat&quot;); 
+<a name="l955"><span class="ln">955  </span></a>                        lang= (double) d.get(&quot;lang&quot;); 
+<a name="l956"><span class="ln">956  </span></a>                        vehicleDetailList.add(new VehicleDetail(id,lat,lang)); 
+<a name="l957"><span class="ln">957  </span></a> 
+<a name="l958"><span class="ln">958  </span></a> 
+<a name="l959"><span class="ln">959  </span></a> 
+<a name="l960"><span class="ln">960  </span></a> 
+<a name="l961"><span class="ln">961  </span></a> 
+<a name="l962"><span class="ln">962  </span></a>                    } 
+<a name="l963"><span class="ln">963  </span></a> 
+<a name="l964"><span class="ln">964  </span></a> 
+<a name="l965"><span class="ln">965  </span></a> 
+<a name="l966"><span class="ln">966  </span></a>//                    String value = dataSnapshot.getValue(String.class); 
+<a name="l967"><span class="ln">967  </span></a> 
+<a name="l968"><span class="ln">968  </span></a>                } 
+<a name="l969"><span class="ln">969  </span></a> 
+<a name="l970"><span class="ln">970  </span></a>                @Override 
+<a name="l971"><span class="ln">971  </span></a>                public void onCancelled(DatabaseError error) { 
+<a name="l972"><span class="ln">972  </span></a>                    // Failed to read value 
+<a name="l973"><span class="ln">973  </span></a>                    Log.w(TAG, &quot;Failed to read value.&quot;, error.toException()); 
+<a name="l974"><span class="ln">974  </span></a>                } 
+<a name="l975"><span class="ln">975  </span></a>            }); 
+<a name="l976"><span class="ln">976  </span></a>        }catch (Exception e){ 
+<a name="l977"><span class="ln">977  </span></a>            System.out.println(&quot;exception occurs&quot;+e); 
+<a name="l978"><span class="ln">978  </span></a> 
+<a name="l979"><span class="ln">979  </span></a>        } 
+<a name="l980"><span class="ln">980  </span></a>    } 
+<a name="l981"><span class="ln">981  </span></a>*/</span><span class="s1"> 
+<a name="l982"><span class="ln">982  </span></a> 
+<a name="l983"><span class="ln">983  </span></a> 
+<a name="l984"><span class="ln">984  </span></a>    </span><span class="s0">void </span><span class="s1">getVehiclesLocation2(){ 
+<a name="l985"><span class="ln">985  </span></a>        </span><span class="s2">// Read from the database</span><span class="s1"> 
+<a name="l986"><span class="ln">986  </span></a>        </span><span class="s2">//databaseReference.child(&quot;vehicle&quot;);</span><span class="s1"> 
+<a name="l987"><span class="ln">987  </span></a>        databaseReference = database.getReference().child(</span><span class="s4">&quot;vehicles&quot;</span><span class="s1">); 
+<a name="l988"><span class="ln">988  </span></a> 
+<a name="l989"><span class="ln">989  </span></a>        </span><span class="s0">try </span><span class="s1">{ 
+<a name="l990"><span class="ln">990  </span></a>            databaseReference.addValueEventListener(</span><span class="s0">new </span><span class="s1">ValueEventListener() { 
+<a name="l991"><span class="ln">991  </span></a>                @Override 
+<a name="l992"><span class="ln">992  </span></a>                </span><span class="s0">public void </span><span class="s1">onDataChange(DataSnapshot dataSnapshot) { 
+<a name="l993"><span class="ln">993  </span></a>                    </span><span class="s2">// This method is called once with the initial value and again</span><span class="s1"> 
+<a name="l994"><span class="ln">994  </span></a>                    </span><span class="s2">// whenever data at this location is updated.</span><span class="s1"> 
+<a name="l995"><span class="ln">995  </span></a> 
+<a name="l996"><span class="ln">996  </span></a>                   </span><span class="s0">try</span><span class="s1">{ 
+<a name="l997"><span class="ln">997  </span></a>                    String name,email; 
+<a name="l998"><span class="ln">998  </span></a>                    </span><span class="s0">double </span><span class="s1">lat,lang; 
+<a name="l999"><span class="ln">999  </span></a>                    System.out.println(</span><span class="s4">&quot;#^%&amp;*(*&amp;^%&amp;^%&amp;^%&amp;^%^%80789986987&quot;</span><span class="s1">+dataSnapshot); 
+<a name="l1000"><span class="ln">1000 </span></a>                    </span><span class="s2">//creating hashmap</span><span class="s1"> 
+<a name="l1001"><span class="ln">1001 </span></a>                    HashMap&lt;String,Object&gt; dataMap = (HashMap&lt;String, Object&gt;) dataSnapshot.getValue(); 
+<a name="l1002"><span class="ln">1002 </span></a>                    </span><span class="s0">for</span><span class="s1">(Map.Entry&lt;String,Object&gt; key : dataMap.entrySet()) { 
+<a name="l1003"><span class="ln">1003 </span></a>                        </span><span class="s2">//String d = key.toString();</span><span class="s1"> 
+<a name="l1004"><span class="ln">1004 </span></a>                      </span><span class="s2">//  id = key.getKey();</span><span class="s1"> 
+<a name="l1005"><span class="ln">1005 </span></a> 
+<a name="l1006"><span class="ln">1006 </span></a>                        Map d = (Map) key.getValue(); 
+<a name="l1007"><span class="ln">1007 </span></a>                        System.out.println(d); 
+<a name="l1008"><span class="ln">1008 </span></a>                        name = d.get(</span><span class="s4">&quot;name&quot;</span><span class="s1">).toString(); 
+<a name="l1009"><span class="ln">1009 </span></a>                        email = d.get(</span><span class="s4">&quot;email&quot;</span><span class="s1">).toString(); 
+<a name="l1010"><span class="ln">1010 </span></a>                        lat = (</span><span class="s0">double</span><span class="s1">) d.get(</span><span class="s4">&quot;lat&quot;</span><span class="s1">); 
+<a name="l1011"><span class="ln">1011 </span></a>                        lang = (</span><span class="s0">double</span><span class="s1">) d.get(</span><span class="s4">&quot;lang&quot;</span><span class="s1">); 
+<a name="l1012"><span class="ln">1012 </span></a> 
+<a name="l1013"><span class="ln">1013 </span></a> 
+<a name="l1014"><span class="ln">1014 </span></a>                        vehicleDetail2List.add(</span><span class="s0">new </span><span class="s1">VehicleDetail2(name, email,lat,lang)); 
+<a name="l1015"><span class="ln">1015 </span></a>                        </span><span class="s2">//System.out.println(&quot;@#$%^&amp;*(*&amp;^%$#&quot;+vehicleDetail2List.get(1).getVehicleEmail());</span><span class="s1"> 
+<a name="l1016"><span class="ln">1016 </span></a> 
+<a name="l1017"><span class="ln">1017 </span></a>                    } 
+<a name="l1018"><span class="ln">1018 </span></a> 
+<a name="l1019"><span class="ln">1019 </span></a>                    Log.d(</span><span class="s4">&quot;MYTAG&quot;</span><span class="s1">,vehicleDetail2List.size()+</span><span class="s4">&quot;&quot;</span><span class="s1">); 
+<a name="l1020"><span class="ln">1020 </span></a> 
+<a name="l1021"><span class="ln">1021 </span></a>                    }</span><span class="s0">catch </span><span class="s1">(Exception e){ 
+<a name="l1022"><span class="ln">1022 </span></a>                       e.printStackTrace(); 
+<a name="l1023"><span class="ln">1023 </span></a>                   } 
+<a name="l1024"><span class="ln">1024 </span></a> 
+<a name="l1025"><span class="ln">1025 </span></a> 
+<a name="l1026"><span class="ln">1026 </span></a> 
+<a name="l1027"><span class="ln">1027 </span></a></span><span class="s2">//                    String value = dataSnapshot.getValue(String.class);</span><span class="s1"> 
+<a name="l1028"><span class="ln">1028 </span></a> 
+<a name="l1029"><span class="ln">1029 </span></a>                } 
+<a name="l1030"><span class="ln">1030 </span></a> 
+<a name="l1031"><span class="ln">1031 </span></a>                @Override 
+<a name="l1032"><span class="ln">1032 </span></a>                </span><span class="s0">public void </span><span class="s1">onCancelled(DatabaseError error) { 
+<a name="l1033"><span class="ln">1033 </span></a>                    </span><span class="s2">// Failed to read value</span><span class="s1"> 
+<a name="l1034"><span class="ln">1034 </span></a>                    Log.w(TAG, </span><span class="s4">&quot;Failed to read value.&quot;</span><span class="s1">, error.toException()); 
+<a name="l1035"><span class="ln">1035 </span></a>                } 
+<a name="l1036"><span class="ln">1036 </span></a>            }); 
+<a name="l1037"><span class="ln">1037 </span></a>        }</span><span class="s0">catch </span><span class="s1">(Exception e){ 
+<a name="l1038"><span class="ln">1038 </span></a>            System.out.println(</span><span class="s4">&quot;exception occurs&quot;</span><span class="s1">+e); 
+<a name="l1039"><span class="ln">1039 </span></a> 
+<a name="l1040"><span class="ln">1040 </span></a>        } 
+<a name="l1041"><span class="ln">1041 </span></a>    } 
+<a name="l1042"><span class="ln">1042 </span></a> 
+<a name="l1043"><span class="ln">1043 </span></a> 
+<a name="l1044"><span class="ln">1044 </span></a></span><span class="s2">/*private class GetDistanceAndTime extends AsyncTask&lt;URL, Integer, Boolean&gt; { 
+<a name="l1045"><span class="ln">1045 </span></a> 
+<a name="l1046"><span class="ln">1046 </span></a>    Handler mhandler; 
+<a name="l1047"><span class="ln">1047 </span></a>    //progressBar.setVisibility(View.INVISIBLE); 
+<a name="l1048"><span class="ln">1048 </span></a>    @Override 
+<a name="l1049"><span class="ln">1049 </span></a>    protected Boolean doInBackground(URL... urls) { 
+<a name="l1050"><span class="ln">1050 </span></a>        mhandler = new Handler(Looper.getMainLooper()){ 
+<a name="l1051"><span class="ln">1051 </span></a>            @Override 
+<a name="l1052"><span class="ln">1052 </span></a>            public void handleMessage(Message msg) { 
+<a name="l1053"><span class="ln">1053 </span></a>                progressBar = findViewById(R.id.progress_bar); 
+<a name="l1054"><span class="ln">1054 </span></a>                progressBar.setVisibility(View.VISIBLE); 
+<a name="l1055"><span class="ln">1055 </span></a>            } 
+<a name="l1056"><span class="ln">1056 </span></a>        }; 
+<a name="l1057"><span class="ln">1057 </span></a> 
+<a name="l1058"><span class="ln">1058 </span></a> 
+<a name="l1059"><span class="ln">1059 </span></a> 
+<a name="l1060"><span class="ln">1060 </span></a>        getDistance(sourceLatLang,destinationLatLang); 
+<a name="l1061"><span class="ln">1061 </span></a> 
+<a name="l1062"><span class="ln">1062 </span></a>        return true; 
+<a name="l1063"><span class="ln">1063 </span></a>    } 
+<a name="l1064"><span class="ln">1064 </span></a> 
+<a name="l1065"><span class="ln">1065 </span></a>    @Override 
+<a name="l1066"><span class="ln">1066 </span></a>    protected void onPostExecute(Boolean aBoolean) { 
+<a name="l1067"><span class="ln">1067 </span></a>        super.onPostExecute(aBoolean); 
+<a name="l1068"><span class="ln">1068 </span></a>        progressBar.setVisibility(View.INVISIBLE); 
+<a name="l1069"><span class="ln">1069 </span></a>    } 
+<a name="l1070"><span class="ln">1070 </span></a> 
+<a name="l1071"><span class="ln">1071 </span></a> 
+<a name="l1072"><span class="ln">1072 </span></a> 
+<a name="l1073"><span class="ln">1073 </span></a>    protected void getDistance(LatLng source,LatLng destination){ 
+<a name="l1074"><span class="ln">1074 </span></a> 
+<a name="l1075"><span class="ln">1075 </span></a>        if((source!=null) &amp;&amp; (destination!=null) &amp;&amp; (source.toString().equals(destination.toString()))){ 
+<a name="l1076"><span class="ln">1076 </span></a>            System.out.println(&quot;select different destination&quot;); 
+<a name="l1077"><span class="ln">1077 </span></a>        } 
+<a name="l1078"><span class="ln">1078 </span></a>        else if(source == null &amp;&amp; (destination!=null)){ 
+<a name="l1079"><span class="ln">1079 </span></a>            System.out.println(&quot;source is null&quot;); 
+<a name="l1080"><span class="ln">1080 </span></a>        } 
+<a name="l1081"><span class="ln">1081 </span></a>        else if ((source!=null)&amp;&amp; (destination==null)){ 
+<a name="l1082"><span class="ln">1082 </span></a>            System.out.println(&quot;destination is null&quot;); 
+<a name="l1083"><span class="ln">1083 </span></a>        } 
+<a name="l1084"><span class="ln">1084 </span></a>        else if((source==null) &amp;&amp; (destination == null)){ 
+<a name="l1085"><span class="ln">1085 </span></a>            System.out.println(&quot;source and destination are null&quot;); 
+<a name="l1086"><span class="ln">1086 </span></a>        } 
+<a name="l1087"><span class="ln">1087 </span></a> 
+<a name="l1088"><span class="ln">1088 </span></a>        else if((source!=null) &amp;&amp; (destination!=null)) { 
+<a name="l1089"><span class="ln">1089 </span></a>            String dltlng = destination.latitude+&quot;%2C&quot;+destination.longitude; 
+<a name="l1090"><span class="ln">1090 </span></a>            String sltlng = source.latitude+&quot;,&quot;+source.longitude; 
+<a name="l1091"><span class="ln">1091 </span></a>            String url = &quot;https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&amp;origins=&quot;+sltlng+&quot;&amp;destinations=&quot;+dltlng+&quot;&amp;key=AIzaSyAtCsHgfQpJ8kxho7oWtr9SeRN9kwdVKQE &quot;; 
+<a name="l1092"><span class="ln">1092 </span></a> 
+<a name="l1093"><span class="ln">1093 </span></a>            // String url = &quot;https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&amp;origins=40.6655101,-73.89188969999998&amp;destinations=40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626%7C40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626&amp;key=AIzaSyAtCsHgfQpJ8kxho7oWtr9SeRN9kwdVKQE &quot;; 
+<a name="l1094"><span class="ln">1094 </span></a>            //JSONObject jsonObject = new JSONObject(); 
+<a name="l1095"><span class="ln">1095 </span></a>            final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener&lt;JSONObject&gt;() { 
+<a name="l1096"><span class="ln">1096 </span></a>                @Override 
+<a name="l1097"><span class="ln">1097 </span></a>                public void onResponse(JSONObject response) { 
+<a name="l1098"><span class="ln">1098 </span></a>                    System.out.println(&quot;response is**** &quot;); 
+<a name="l1099"><span class="ln">1099 </span></a>                    System.out.println(response.toString()); 
+<a name="l1100"><span class="ln">1100 </span></a>                    try { 
+<a name="l1101"><span class="ln">1101 </span></a>                        JSONObject elements = response.getJSONArray(&quot;rows&quot;).getJSONObject(0).getJSONArray(&quot;elements&quot;).getJSONObject(0); 
+<a name="l1102"><span class="ln">1102 </span></a> 
+<a name="l1103"><span class="ln">1103 </span></a>                        String distance_text = elements.getJSONObject(&quot;distance&quot;).getString(&quot;text&quot;); 
+<a name="l1104"><span class="ln">1104 </span></a>                        String time_text = elements.getJSONObject(&quot;duration&quot;).getString(&quot;text&quot;); 
+<a name="l1105"><span class="ln">1105 </span></a>                        distance.setText(distance_text); 
+<a name="l1106"><span class="ln">1106 </span></a>                        eta.setText(time_text); 
+<a name="l1107"><span class="ln">1107 </span></a>                        System.out.println(&quot;distance is #$#$#$&quot;+distance); 
+<a name="l1108"><span class="ln">1108 </span></a>                    } catch (JSONException e) { 
+<a name="l1109"><span class="ln">1109 </span></a>                        e.printStackTrace(); 
+<a name="l1110"><span class="ln">1110 </span></a>                    } 
+<a name="l1111"><span class="ln">1111 </span></a> 
+<a name="l1112"><span class="ln">1112 </span></a>                } 
+<a name="l1113"><span class="ln">1113 </span></a>            }, new Response.ErrorListener() { 
+<a name="l1114"><span class="ln">1114 </span></a>                @Override 
+<a name="l1115"><span class="ln">1115 </span></a>                public void onErrorResponse(VolleyError error) { 
+<a name="l1116"><span class="ln">1116 </span></a>                    System.out.println(&quot;error****&quot;); 
+<a name="l1117"><span class="ln">1117 </span></a>                    System.out.println(error); 
+<a name="l1118"><span class="ln">1118 </span></a> 
+<a name="l1119"><span class="ln">1119 </span></a>                    // As of f605da3 the following should work 
+<a name="l1120"><span class="ln">1120 </span></a>                    NetworkResponse response = error.networkResponse; 
+<a name="l1121"><span class="ln">1121 </span></a>                    if (error instanceof ServerError &amp;&amp; response != null) { 
+<a name="l1122"><span class="ln">1122 </span></a>                        try { 
+<a name="l1123"><span class="ln">1123 </span></a>                            String res = new String(response.data, 
+<a name="l1124"><span class="ln">1124 </span></a>                                    HttpHeaderParser.parseCharset(response.headers, &quot;utf-8&quot;)); 
+<a name="l1125"><span class="ln">1125 </span></a>                            // Now you can use any deserializer to make sense of data 
+<a name="l1126"><span class="ln">1126 </span></a>                            JSONObject obj = new JSONObject(res); 
+<a name="l1127"><span class="ln">1127 </span></a>                            System.out.println(&quot;json obj on er@@ror&quot; + obj.toString()); 
+<a name="l1128"><span class="ln">1128 </span></a>                        } catch (UnsupportedEncodingException e1) { 
+<a name="l1129"><span class="ln">1129 </span></a>                            // Couldn't properly decode data to string 
+<a name="l1130"><span class="ln">1130 </span></a>                            e1.printStackTrace(); 
+<a name="l1131"><span class="ln">1131 </span></a>                        } catch (JSONException e2) { 
+<a name="l1132"><span class="ln">1132 </span></a>                            // returned data is not JSONObject? 
+<a name="l1133"><span class="ln">1133 </span></a>                            e2.printStackTrace(); 
+<a name="l1134"><span class="ln">1134 </span></a>                        } 
+<a name="l1135"><span class="ln">1135 </span></a>                    } 
+<a name="l1136"><span class="ln">1136 </span></a> 
+<a name="l1137"><span class="ln">1137 </span></a> 
+<a name="l1138"><span class="ln">1138 </span></a>                } 
+<a name="l1139"><span class="ln">1139 </span></a>            }); 
+<a name="l1140"><span class="ln">1140 </span></a> 
+<a name="l1141"><span class="ln">1141 </span></a>            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(MY_SOCKET_TIMEOUT_MS, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)); 
+<a name="l1142"><span class="ln">1142 </span></a> 
+<a name="l1143"><span class="ln">1143 </span></a> 
+<a name="l1144"><span class="ln">1144 </span></a>            MySingleton.getInstance(MainActivity.this).addToRequestQueue(jsonObjectRequest); 
+<a name="l1145"><span class="ln">1145 </span></a>        } 
+<a name="l1146"><span class="ln">1146 </span></a>    } 
+<a name="l1147"><span class="ln">1147 </span></a> 
+<a name="l1148"><span class="ln">1148 </span></a> 
+<a name="l1149"><span class="ln">1149 </span></a> 
+<a name="l1150"><span class="ln">1150 </span></a> 
+<a name="l1151"><span class="ln">1151 </span></a> 
+<a name="l1152"><span class="ln">1152 </span></a>}*/</span><span class="s1"> 
+<a name="l1153"><span class="ln">1153 </span></a> 
+<a name="l1154"><span class="ln">1154 </span></a> 
+<a name="l1155"><span class="ln">1155 </span></a></span><span class="s0">public void </span><span class="s1">addMarker(LatLng p,String t,</span><span class="s0">int </span><span class="s1">f){ 
+<a name="l1156"><span class="ln">1156 </span></a>   </span><span class="s2">// LatLng p = new LatLng(postion.getLatitude(),postion.getLongitude());</span><span class="s1"> 
+<a name="l1157"><span class="ln">1157 </span></a>   </span><span class="s0">if</span><span class="s1">(f == SOURCE_FLAG){ 
+<a name="l1158"><span class="ln">1158 </span></a>       </span><span class="s0">if</span><span class="s1">(sMarker != </span><span class="s0">null</span><span class="s1">) { 
+<a name="l1159"><span class="ln">1159 </span></a>           sMarker.remove(); 
+<a name="l1160"><span class="ln">1160 </span></a>           sMarker = mMap.addMarker(</span><span class="s0">new </span><span class="s1">MarkerOptions().position(p).title(t)); 
+<a name="l1161"><span class="ln">1161 </span></a>           sMarker.showInfoWindow(); 
+<a name="l1162"><span class="ln">1162 </span></a>           </span><span class="s2">//mMap.addMarker(new MarkerOptions().position(p).title(t)).showInfoWindow();</span><span class="s1"> 
+<a name="l1163"><span class="ln">1163 </span></a>            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(p, DEFAULT_ZOOM)); 
+<a name="l1164"><span class="ln">1164 </span></a>       } 
+<a name="l1165"><span class="ln">1165 </span></a>       </span><span class="s0">else</span><span class="s1">{ 
+<a name="l1166"><span class="ln">1166 </span></a>           sMarker = mMap.addMarker(</span><span class="s0">new </span><span class="s1">MarkerOptions().position(p).title(t)); 
+<a name="l1167"><span class="ln">1167 </span></a>           sMarker.showInfoWindow(); 
+<a name="l1168"><span class="ln">1168 </span></a>           </span><span class="s2">//mMap.addMarker(new MarkerOptions().position(p).title(t)).showInfoWindow();</span><span class="s1"> 
+<a name="l1169"><span class="ln">1169 </span></a>           mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(p, DEFAULT_ZOOM)); 
+<a name="l1170"><span class="ln">1170 </span></a>       } 
+<a name="l1171"><span class="ln">1171 </span></a>   } 
+<a name="l1172"><span class="ln">1172 </span></a>   </span><span class="s0">else if</span><span class="s1">(f == DESTINATION_FLAG){ 
+<a name="l1173"><span class="ln">1173 </span></a>       dMarker = mMap.addMarker(</span><span class="s0">new </span><span class="s1">MarkerOptions().position(p).title(t)); 
+<a name="l1174"><span class="ln">1174 </span></a>       dMarker.showInfoWindow(); 
+<a name="l1175"><span class="ln">1175 </span></a>       </span><span class="s2">//mMap.addMarker(new MarkerOptions().position(p).title(t)).showInfoWindow();</span><span class="s1"> 
+<a name="l1176"><span class="ln">1176 </span></a> 
+<a name="l1177"><span class="ln">1177 </span></a>       mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(p, DEFAULT_ZOOM)); 
+<a name="l1178"><span class="ln">1178 </span></a>   } 
+<a name="l1179"><span class="ln">1179 </span></a> 
+<a name="l1180"><span class="ln">1180 </span></a>} 
+<a name="l1181"><span class="ln">1181 </span></a> 
+<a name="l1182"><span class="ln">1182 </span></a></span><span class="s0">public void </span><span class="s1">drawPath(){ 
+<a name="l1183"><span class="ln">1183 </span></a>    Polyline polyline = mMap.addPolyline(</span><span class="s0">new </span><span class="s1">PolylineOptions().clickable(</span><span class="s0">true</span><span class="s1">) 
+<a name="l1184"><span class="ln">1184 </span></a>            .add(snewlatlang,destinationLatLang)); 
+<a name="l1185"><span class="ln">1185 </span></a>} 
+<a name="l1186"><span class="ln">1186 </span></a> 
+<a name="l1187"><span class="ln">1187 </span></a></span><span class="s0">public void </span><span class="s1">collapse(){ 
+<a name="l1188"><span class="ln">1188 </span></a> 
+<a name="l1189"><span class="ln">1189 </span></a>    </span><span class="s0">if </span><span class="s1">(slidingUpPanelLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN) { 
+<a name="l1190"><span class="ln">1190 </span></a>        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN); 
+<a name="l1191"><span class="ln">1191 </span></a>       </span><span class="s2">// item.setTitle(R.string.action_show);</span><span class="s1"> 
+<a name="l1192"><span class="ln">1192 </span></a>    } 
+<a name="l1193"><span class="ln">1193 </span></a>    </span><span class="s2">//slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);</span><span class="s1"> 
+<a name="l1194"><span class="ln">1194 </span></a>} 
+<a name="l1195"><span class="ln">1195 </span></a> 
+<a name="l1196"><span class="ln">1196 </span></a></span><span class="s0">public class </span><span class="s1">MyList { 
+<a name="l1197"><span class="ln">1197 </span></a>    String pname,etime,distance; 
+<a name="l1198"><span class="ln">1198 </span></a>    </span><span class="s0">int </span><span class="s1">dval,tval; 
+<a name="l1199"><span class="ln">1199 </span></a>   </span><span class="s2">// List&lt;VehicleDetail&gt; vDetail;</span><span class="s1"> 
+<a name="l1200"><span class="ln">1200 </span></a>    List&lt;VehicleDetail2&gt; vDetail2; 
+<a name="l1201"><span class="ln">1201 </span></a> 
+<a name="l1202"><span class="ln">1202 </span></a>    </span><span class="s0">public </span><span class="s1">MyList(String n, String d, String t, </span><span class="s0">int </span><span class="s1">dval,</span><span class="s0">int </span><span class="s1">tval</span><span class="s2">/*List&lt;VehicleDetail&gt; vd*/</span><span class="s1">,List&lt;VehicleDetail2&gt; vd) { 
+<a name="l1203"><span class="ln">1203 </span></a>        pname= n; 
+<a name="l1204"><span class="ln">1204 </span></a>        etime= t; 
+<a name="l1205"><span class="ln">1205 </span></a>        distance= d; 
+<a name="l1206"><span class="ln">1206 </span></a>        </span><span class="s0">this</span><span class="s1">.dval = dval; 
+<a name="l1207"><span class="ln">1207 </span></a>        </span><span class="s0">this</span><span class="s1">.tval = tval; 
+<a name="l1208"><span class="ln">1208 </span></a>        </span><span class="s2">//vDetail = vd;</span><span class="s1"> 
+<a name="l1209"><span class="ln">1209 </span></a>        vDetail2 = vd; 
+<a name="l1210"><span class="ln">1210 </span></a> 
+<a name="l1211"><span class="ln">1211 </span></a>    } 
+<a name="l1212"><span class="ln">1212 </span></a> 
+<a name="l1213"><span class="ln">1213 </span></a>    </span><span class="s0">public </span><span class="s1">String getPname(){ 
+<a name="l1214"><span class="ln">1214 </span></a>        </span><span class="s0">return </span><span class="s1">pname; 
+<a name="l1215"><span class="ln">1215 </span></a>            } 
+<a name="l1216"><span class="ln">1216 </span></a> 
+<a name="l1217"><span class="ln">1217 </span></a>     </span><span class="s0">public </span><span class="s1">String geteTime(){</span><span class="s0">return </span><span class="s1">etime;} 
+<a name="l1218"><span class="ln">1218 </span></a>     </span><span class="s0">public </span><span class="s1">String getDistance(){</span><span class="s0">return </span><span class="s1">distance;} 
+<a name="l1219"><span class="ln">1219 </span></a>     </span><span class="s0">public int </span><span class="s1">getDval(){</span><span class="s0">return </span><span class="s1">dval;} 
+<a name="l1220"><span class="ln">1220 </span></a>     </span><span class="s0">public int </span><span class="s1">getTval(){</span><span class="s0">return </span><span class="s1">tval;} 
+<a name="l1221"><span class="ln">1221 </span></a>     </span><span class="s0">public </span><span class="s1">List&lt;VehicleDetail2&gt; getVehicleDetail(){</span><span class="s0">return </span><span class="s1">vDetail2;} 
+<a name="l1222"><span class="ln">1222 </span></a>} 
+<a name="l1223"><span class="ln">1223 </span></a> 
+<a name="l1224"><span class="ln">1224 </span></a> 
+<a name="l1225"><span class="ln">1225 </span></a></span><span class="s2">/* 
+<a name="l1226"><span class="ln">1226 </span></a>public class VehicleDetail{ 
+<a name="l1227"><span class="ln">1227 </span></a>    String id,lat,lang; 
+<a name="l1228"><span class="ln">1228 </span></a>    public VehicleDetail(String id,double lat,double lang){ 
+<a name="l1229"><span class="ln">1229 </span></a>        this.id=id; 
+<a name="l1230"><span class="ln">1230 </span></a>        this.lang= String.valueOf(lang); 
+<a name="l1231"><span class="ln">1231 </span></a>        this.lat= String.valueOf(lat); 
+<a name="l1232"><span class="ln">1232 </span></a> 
+<a name="l1233"><span class="ln">1233 </span></a>    } 
+<a name="l1234"><span class="ln">1234 </span></a> 
+<a name="l1235"><span class="ln">1235 </span></a>    public String getVehicleId(){return id;} 
+<a name="l1236"><span class="ln">1236 </span></a>    public String getLat(){return lat;} 
+<a name="l1237"><span class="ln">1237 </span></a>    public String getLang(){return lang;} 
+<a name="l1238"><span class="ln">1238 </span></a>}*/</span><span class="s1"> 
+<a name="l1239"><span class="ln">1239 </span></a></span><span class="s0">public class </span><span class="s1">VehicleDetail2 </span><span class="s0">implements </span><span class="s1">Serializable{ 
+<a name="l1240"><span class="ln">1240 </span></a>    String email,name,lat,lang; 
+<a name="l1241"><span class="ln">1241 </span></a>   </span><span class="s2">// LatLng latLng;</span><span class="s1"> 
+<a name="l1242"><span class="ln">1242 </span></a> 
+<a name="l1243"><span class="ln">1243 </span></a> 
+<a name="l1244"><span class="ln">1244 </span></a>    VehicleDetail2(String name ,String email,</span><span class="s0">double </span><span class="s1">lat,</span><span class="s0">double </span><span class="s1">lang){ 
+<a name="l1245"><span class="ln">1245 </span></a>        </span><span class="s0">this</span><span class="s1">.name= name; 
+<a name="l1246"><span class="ln">1246 </span></a>        </span><span class="s0">this</span><span class="s1">.email= email; 
+<a name="l1247"><span class="ln">1247 </span></a>       </span><span class="s2">// this.latLng= latLng;</span><span class="s1"> 
+<a name="l1248"><span class="ln">1248 </span></a>        </span><span class="s0">this</span><span class="s1">.lat= String.valueOf(lat); 
+<a name="l1249"><span class="ln">1249 </span></a>        </span><span class="s0">this</span><span class="s1">.lang = String.valueOf(lang); 
+<a name="l1250"><span class="ln">1250 </span></a> 
+<a name="l1251"><span class="ln">1251 </span></a>    } 
+<a name="l1252"><span class="ln">1252 </span></a>    </span><span class="s2">// TODO : add getter methods and do this for new vehicle location database 0</span><span class="s1"> 
+<a name="l1253"><span class="ln">1253 </span></a>    </span><span class="s0">public </span><span class="s1">String getVehicleName(){</span><span class="s0">return </span><span class="s1">name;} 
+<a name="l1254"><span class="ln">1254 </span></a>    </span><span class="s0">public </span><span class="s1">String getVehicleEmail(){</span><span class="s0">return </span><span class="s1">email;} 
+<a name="l1255"><span class="ln">1255 </span></a>    </span><span class="s0">public </span><span class="s1">String getVehicleLat(){</span><span class="s0">return </span><span class="s1">lat;} 
+<a name="l1256"><span class="ln">1256 </span></a>    </span><span class="s0">public </span><span class="s1">String getVehicleLang(){</span><span class="s0">return </span><span class="s1">lang;} 
+<a name="l1257"><span class="ln">1257 </span></a>    </span><span class="s2">//public LatLng getVehicleLatLang(){return latLng;}</span><span class="s1"> 
+<a name="l1258"><span class="ln">1258 </span></a>} 
+<a name="l1259"><span class="ln">1259 </span></a> 
+<a name="l1260"><span class="ln">1260 </span></a></span><span class="s0">static class </span><span class="s1">AmbUserBookingDetail{ 
+<a name="l1261"><span class="ln">1261 </span></a>    </span><span class="s0">boolean </span><span class="s1">f; 
+<a name="l1262"><span class="ln">1262 </span></a>    </span><span class="s2">//LatLng userlatlng;</span><span class="s1"> 
+<a name="l1263"><span class="ln">1263 </span></a>    String email; 
+<a name="l1264"><span class="ln">1264 </span></a>    </span><span class="s0">double </span><span class="s1">lat,lang; 
+<a name="l1265"><span class="ln">1265 </span></a>    AmbUserBookingDetail(</span><span class="s0">boolean </span><span class="s1">f,String email,</span><span class="s0">double </span><span class="s1">lat, </span><span class="s0">double </span><span class="s1">lang){ 
+<a name="l1266"><span class="ln">1266 </span></a>       </span><span class="s0">this</span><span class="s1">.f= f; 
+<a name="l1267"><span class="ln">1267 </span></a>       </span><span class="s2">//this.userlatlng = userlatLng;</span><span class="s1"> 
+<a name="l1268"><span class="ln">1268 </span></a>        </span><span class="s0">this</span><span class="s1">.lat = lat; 
+<a name="l1269"><span class="ln">1269 </span></a>        </span><span class="s0">this</span><span class="s1">.lang =lang; 
+<a name="l1270"><span class="ln">1270 </span></a>        </span><span class="s0">this</span><span class="s1">.email = email; 
+<a name="l1271"><span class="ln">1271 </span></a> 
+<a name="l1272"><span class="ln">1272 </span></a>    } 
+<a name="l1273"><span class="ln">1273 </span></a>} 
+<a name="l1274"><span class="ln">1274 </span></a> 
+<a name="l1275"><span class="ln">1275 </span></a>} 
+<a name="l1276"><span class="ln">1276 </span></a> 
+<a name="l1277"><span class="ln">1277 </span></a></span></pre>
+</body>
+</html>
